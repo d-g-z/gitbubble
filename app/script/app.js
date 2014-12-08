@@ -7,44 +7,17 @@ var TipsView = require('./tips_view');
 var HeaderView = require('./header_view');
 var PoolView = require('./pool_view');
 var BubbleView = require('./bubble_view');
+var bubbleData = require('./bubble_data.json');
 
 var bubbleApp = {
   $container: $('#app'),
 
   painted: [],
 
-  bubbles: [{
-    text: 'clone',
-    score: 100,
-    time: 0
-  }, {
-    text: 'commit',
-    score: 100,
-    time: 0
-  }, {
-    text: 'rebase',
-    score: 100,
-    time: 0
-  }, {
-    text: 'add',
-    score: 100,
-    time: 0
-  }, {
-    text: 'gitcafe',
-    score: 0,
-    time: 5
-  }, {
-    text: 'status',
-    score: 100,
-    time: 0
-  }, {
-    text: 'merge',
-    score: 100,
-    time: 0
-  }],
+  bubbles: bubbleData,
 
   timer: {
-    left: 16,
+    left: 5,
     interval: 1,
     ticktock: null,
 
