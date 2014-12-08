@@ -1,0 +1,29 @@
+{
+  "name": "GitBubble",
+  "version": "0.0.1",
+  "description": "A simple mobile web game for Xmas 2014",
+  "dependencies": {
+    "gulp": "~3.8.10",
+    "gulp-less": "*",
+    "gulp-concat": "~2.4.2",
+    "browser-sync": "~1.7.2",
+    "browserify": "~6.3.3",
+    "del": "~1.0.0",
+    "vinyl-source-stream": "~1.0.0",
+    "zepto-browserify": "1.*",
+    "underscore": "~1.7.0",
+    "backbone": "~1.1.2",
+    "handlebars": "~2.0.0",
+    "hbsfy": "~2.2.0"
+  },
+  "browserify": {
+    "transform": [
+      "hbsfy"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitcafe.com:GitBubble/GitBubble.git"
+  },
+  "license": "MIT"
+}
