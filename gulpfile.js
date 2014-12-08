@@ -1,5 +1,6 @@
 var gulp = require('gulp');
 var less = require('gulp-less');
+var deploy = require('gulp-gitcafe-pages');
 var browserify = require('browserify');
 var browserSync = require('browser-sync');
 var source = require('vinyl-source-stream');
@@ -49,9 +50,27 @@ gulp.task('server', ['style', 'script', 'watch'], function () {
 
 gulp.task('clean', function () {
   return del([
+    'dist/',
     'app/css/*.css',
     'app/js/*.js'
   ]);
+});
+
+gulp.task('dist', ['clean', 'style', 'script'], function () {
+  gulp.src('app/index.html')
+    .pipe(gulp.dest('dist/'));
+
+  gulp.src('app/css/*.css')
+    .pipe(gulp.dest('dist/css/'));
+
+  gulp.src('app/js/*.js')
+    .pipe(gulp.dest('dist/js/'));
+});
+
+
+gulp.task('deploy', function () {
+  return gulp.src('dist/**/*')
+    .pipe(deploy());
 });
 
 gulp.task('default', ['server']);
