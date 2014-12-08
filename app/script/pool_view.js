@@ -27,11 +27,18 @@ module.exports = Backbone.View.extend({
     console.log('game started after ' + ((new Date().getTime() - AppConfig.startTime) / 1000) + 's');
   },
 
+  onEndGame: function () {
+    window.clearInterval(this.interval);
+    this.$el.empty();
+    console.log('game ended after ' + ((new Date().getTime() - AppConfig.startTime) / 1000) + 's');
+  },
+
   template: poolTmpl,
 
   initialize: function (options) {
     _.extend(this, options);
     this.on('startGame', this.onStartGame);
+    this.on('endGame', this.onEndGame);
     this.render();
     this.$el.hide();
   },

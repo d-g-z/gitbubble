@@ -17,8 +17,8 @@ var bubbleApp = {
   bubbles: bubbleData,
 
   timer: {
-    left: 5,
-    interval: 1,
+    left: 5000,
+    interval: 250,
     ticktock: null,
 
     onTickTock: function () {},
@@ -50,7 +50,7 @@ var bubbleApp = {
 
       this.ticktock = window.setInterval(function () {
         self.reduce(self.interval);
-      }, this.interval * 1000);
+      }, this.interval);
     },
 
     end: function () {
@@ -132,7 +132,13 @@ var bubbleApp = {
     var self = this;
 
     this.timer.onTickTock = function () {
-      self.headerView.updateTime(this.left);
+      if (this.left % 1000 === 0) {
+        self.headerView.updateTime(this.left / 1000); 
+      }
+    };
+
+    this.timer.onRunOut = function () {
+      self.poolView.trigger('endGame');
     };
   },
 
