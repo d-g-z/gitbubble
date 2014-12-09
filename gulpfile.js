@@ -57,21 +57,19 @@ gulp.task('clean', function () {
 });
 
 gulp.task('dist', ['clean', 'style', 'script'], function () {
-  gulp.src('app/index.html')
-    .pipe(gulp.dest('dist/'));
-
-  gulp.src('app/css/*.css')
-    .pipe(gulp.dest('dist/css/'));
-
-  gulp.src('app/js/*.js')
-    .pipe(gulp.dest('dist/js/'));
-
-  gulp.src('app/font/**.*')
-    .pipe(gulp.dest('dist/font/'));
+  return gulp.src([
+    'app/index.html',
+    'app/css/**/*',
+    'app/js/**/*',
+    'app/font/**/*',
+    'app/image/**/*'
+  ], {
+    base: './app/'
+  }).pipe(gulp.dest('dist'));
 });
 
 
-gulp.task('deploy', function () {
+gulp.task('deploy', ['dist'], function () {
   return gulp.src('dist/**/*')
     .pipe(deploy());
 });
