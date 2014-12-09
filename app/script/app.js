@@ -14,18 +14,20 @@ var bubbleApp = {
 
   painted: [],
 
+  lastBubble: {},
+
+  combo: 0,
+
   bubbles: bubbleData,
 
   timer: {
-    left: 5000,
+    left: 10000,
     interval: 250,
     ticktock: null,
 
     onTickTock: function () {},
 
-    onRunOut: function () {
-      console.log('run out of time');
-    },
+    onRunOut: function () {},
 
     add: function (time) {
       this.left += time;
@@ -176,6 +178,27 @@ var bubbleApp = {
 
       updateTime: function (time) {
         self.timer.add(parseInt(time, 10));
+      },
+
+      getResult: function (bubble) {
+        var score = 0, time = 0, square = 0;
+
+        if (!!bubble.text && bubble.text === self.lastBubble.text) {
+          self.combo++;
+          square = self.combo - 1;
+        } else {
+          self.combo = 0;
+          square = 0;
+        }
+
+        score = parseInt(bubble.score, 10) * Math.pow(2, square);
+
+        self.lastBubble = bubble;
+
+        return {
+          score: score,
+          time: bubble.time
+        };
       }
     });
   }

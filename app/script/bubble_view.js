@@ -49,7 +49,8 @@ module.exports = Backbone.View.extend({
     if (!!el.dataset.clicked) { return true; }
 
     var self = this;
-    var score = parseInt(el.dataset.score, 10);
+    var res = this.getResult(el.dataset);
+    var score = parseInt(res.score);
     var timeoutInstance = window.setTimeout(function () {
       // todo: bubble clicked, disappear animation
       self.$el.remove();
@@ -60,10 +61,8 @@ module.exports = Backbone.View.extend({
     el.innerHTML = (score > 0) ? '+' + score : score;
 
     this.$el.addClass('active');
-    this.updateScore(el.dataset.score);
-    this.updateTime(el.dataset.time);
-    
-    console.log(el.dataset.score, el.dataset.time); 
+    this.updateScore(res.score);
+    this.updateTime(res.time);
   },
 
   getRandomDiameter: function () {

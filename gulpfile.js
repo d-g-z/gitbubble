@@ -26,7 +26,7 @@ gulp.task('watch', function () {
   gulp.watch('app/style/*.less', ['style']);
   gulp.watch([
     'app/hbs/*.hbs',
-    'app/script/*.js'
+    'app/script/**.*'
   ], ['script']);
 });
 
