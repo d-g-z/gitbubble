@@ -65,6 +65,9 @@ gulp.task('dist', ['clean', 'style', 'script'], function () {
 
   gulp.src('app/js/*.js')
     .pipe(gulp.dest('dist/js/'));
+
+  gulp.src('app/font/**.*')
+    .pipe(gulp.dest('dist/font/'));
 });
 
 
