@@ -158,7 +158,7 @@ var bubbleApp = {
       return {
         text: '',
         score: 0,
-        time: -1
+        time: -1000
       };
     }
     return this.bubbles[_.random(0, this.bubbles.length - 1)];
