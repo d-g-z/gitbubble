@@ -10,6 +10,20 @@ module.exports = Backbone.View.extend({
   minDiameter: 60,
   bubble: null,
 
+  colors: [
+    'yellow',
+    'red',
+    'blue',
+    'green'
+  ],
+
+  colorPositionRatio: {
+    yellow: 0,
+    red: -1,
+    blue: -2,
+    green: -3
+  },
+
   events: {
     // 'touchstart .js_bubble': 'onClickedBubble',
     // tmp: remove click event?
@@ -25,10 +39,21 @@ module.exports = Backbone.View.extend({
   initialize: function (options) {
     _.extend(this, options);
     this.bubble.diameter = this.getRandomDiameter();
+    this.bubble.color = this.getRandomColor();
     this.render();
   },
 
   render: function () {
+    _.extend(this.bubble, {
+      backgroundSizeWidth: this.bubble.diameter,
+      backgroundSizeHeight: this.bubble.diameter * 4,
+      backgroundPositionX: -Math.abs(this.bubble.diameter / 2),
+      backgroundPositionY: this.getBackgroundPositionY()
+    });
+
+    this.bubble.posX += (this.bubble.diameter / 2);
+    this.bubble.posY += (this.bubble.diameter / 2);
+
     this.setElement(this.template(this.bubble));
     this.bindTouchEvent();
     this.log();
@@ -68,6 +93,15 @@ module.exports = Backbone.View.extend({
   getRandomDiameter: function () {
     var d =  _.random(this.minDiameter, this.maxDiameter);
     return (d % 2 === 0) ? d : d + 1;
+  },
+
+  getRandomColor: function () {
+    return this.colors[_.random(0, this.colors.length - 1)];
+  },
+
+  getBackgroundPositionY: function () {
+    var ratio = -Math.abs(_.indexOf(this.colors, this.bubble.color)) - 0.5;
+    return ratio * this.bubble.diameter;
   },
 
   log: function () {

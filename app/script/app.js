@@ -6,6 +6,7 @@ Backbone.$ = window.$ = $;
 var TipsView = require('./tips_view');
 var HeaderView = require('./header_view');
 var PoolView = require('./pool_view');
+var ResultView = require('./result_view');
 var BubbleView = require('./bubble_view');
 var bubbleData = require('./bubble_data.json');
 
@@ -21,7 +22,7 @@ var bubbleApp = {
   bubbles: bubbleData,
 
   timer: {
-    left: 10000,
+    left: 5000,
     interval: 250,
     ticktock: null,
 
@@ -119,15 +120,41 @@ var bubbleApp = {
           var coord = thisView.getRandomCoord();
           var bubbleView = self.createBubbleView(coord);
           thisView.$el.append(bubbleView.el);
+          bubbleView.creation = window.setTimeout(function () {
+            var diameter = bubbleView.bubble.diameter;
+            bubbleView.$el.css({
+              width: diameter + 'px',
+              height: diameter + 'px',
+              top: (bubbleView.bubble.posY - diameter / 2) + 'px',
+              left: (bubbleView.bubble.posX - diameter / 2) + 'px',
+              backgroundPosition: '0px ' + (bubbleView.bubble.backgroundPositionY + diameter / 2) + 'px',
+              fontSize: '14px',
+              lineHeight: diameter + 'px'
+              // transform: "scale(1)"
+            });
+            window.clearTimeout(bubbleView.creation);
+          }, 500);
           self.painted.push(bubbleView);
         }, 500);
+      },
+
+      onEndGame: function () {
+        window.clearInterval(this.interval);
+        this.$el.empty();
+        this.$el.hide();
+        // console.log(self.resultView);
+        self.resultView.triggerEndGame(self.score.val);
+        console.log('game ended after ' + ((new Date().getTime() - AppConfig.startTime) / 1000) + 's');
       }
     });
+  
+    this.resultView = new ResultView();
 
     this.$container.find('.welcome').remove();
     this.$container.append(this.headerView.el);
     this.$container.append(this.tipsView.el);
     this.$container.append(this.poolView.el);
+    this.$container.append(this.resultView.el);
   },
 
   initTimer: function () {
