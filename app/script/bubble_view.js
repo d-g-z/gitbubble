@@ -17,13 +17,6 @@ module.exports = Backbone.View.extend({
     'green'
   ],
 
-  colorPositionRatio: {
-    yellow: 0,
-    red: -1,
-    blue: -2,
-    green: -3
-  },
-
   events: {
     // 'touchstart .js_bubble': 'onClickedBubble',
     // tmp: remove click event?
@@ -40,16 +33,11 @@ module.exports = Backbone.View.extend({
     _.extend(this, options);
     this.bubble.diameter = this.getRandomDiameter();
     this.bubble.color = this.getRandomColor();
+    this.on('onSettled', this.onSettled);
     this.render();
   },
 
   render: function () {
-    _.extend(this.bubble, {
-      backgroundSizeWidth: this.bubble.diameter,
-      backgroundSizeHeight: this.bubble.diameter * 4,
-      backgroundPositionX: -Math.abs(this.bubble.diameter / 2),
-      backgroundPositionY: this.getBackgroundPositionY()
-    });
 
     this.bubble.posX += (this.bubble.diameter / 2);
     this.bubble.posY += (this.bubble.diameter / 2);
@@ -76,18 +64,65 @@ module.exports = Backbone.View.extend({
     var self = this;
     var res = this.getResult(el.dataset);
     var score = parseInt(res.score);
-    var timeoutInstance = window.setTimeout(function () {
+
+    this.explotion = window.setTimeout(function () {
       // todo: bubble clicked, disappear animation
-      self.$el.remove();
-      window.clearTimeout(timeoutInstance);
-    }, 300);
+      var diameter = self.bubble.diameter;
+      self.$el.css({
+        width: (diameter / 2) + 'px',
+        height: (diameter / 2) + 'px',
+        fontSize: '7px',
+        lineHeight: (diameter / 2) + 'px',
+        top: (self.bubble.posY - diameter / 4) + 'px',
+        left: (self.bubble.posX - diameter / 4) + 'px'
+      });
+
+      this.removal = window.setTimeout(function () {
+        self.$el.remove();
+      }, 500);
+
+      window.clearTimeout(self.explotion);
+      window.clearTimeout(self.destruction);
+    }, 500);
 
     el.dataset.clicked = '1';
     el.innerHTML = (score > 0) ? '+' + score : score;
 
-    this.$el.addClass('active');
     this.updateScore(res.score);
     this.updateTime(res.time);
+  },
+
+  onSettled: function () {
+    // todo: 
+    // 1. rewrite with animation frame
+    // 2. reduce destuction timeout according to timer
+
+    var self = this;
+
+    this.creation = window.setTimeout(function () {
+      var diameter = self.bubble.diameter;
+      self.$el.css({
+        width: diameter + 'px',
+        height: diameter + 'px',
+        top: (self.bubble.posY - diameter / 2) + 'px',
+        left: (self.bubble.posX - diameter / 2) + 'px',
+        fontSize: '14px',
+        lineHeight: diameter + 'px'
+        // transform: "scale(1)"
+      });
+      window.clearTimeout(self.creation);
+    }, 500);
+
+    this.destruction = window.setTimeout(function () {
+      self.$el.css({
+        opacity: 0
+      });
+      self.removal = window.setTimeout(function () {
+        self.$el.remove();
+        window.clearTimeout(self.removal);
+      }, 500);
+      window.clearTimeout(self.destruction);
+    }, 3000);
   },
 
   getRandomDiameter: function () {

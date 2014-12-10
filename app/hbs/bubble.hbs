@@ -1,3 +1,6 @@
-<span class="bubble bubble-{{ color }}" style="left: {{ posX }}px; top: {{ posY }}px; width: 0px; height: 0px; background-size: {{ backgroundSizeWidth }}px {{ backgroundSizeHeight }}px; background-position: {{ backgroundPositionX }}px {{ backgroundPositionY }}px; line-height: 0px;">
-  <a href="javascript:;" data-text="{{ text }}" data-score="{{ score }}" data-time="{{ time }}" class="js_bubble">{{ text }}</a>
-</span>
+<div class="bubble bubble-{{ color }}" style="left: {{ posX }}px; top: {{ posY }}px; width: 0px; height: 0px; line-height: 0px;">
+  <span class="bubble-wrapper">
+    <a href="javascript:;" data-text="{{ text }}" data-score="{{ score }}" data-time="{{ time }}" class="js_bubble">{{ text }}</a>
+    <img src="../image/bubble-{{ color }}.png" />
+  </span>
+</div>

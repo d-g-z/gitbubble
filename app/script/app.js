@@ -22,9 +22,10 @@ var bubbleApp = {
   bubbles: bubbleData,
 
   timer: {
-    left: 5000,
+    left: 15000,
     interval: 250,
     ticktock: null,
+    running: true,
 
     onTickTock: function () {},
 
@@ -80,6 +81,7 @@ var bubbleApp = {
   },
 
   init: function () {
+    // todo: preload all resources.
     AppConfig.initTime = new Date().getTime();
     this.initViews();
     this.initTimer();
@@ -116,25 +118,13 @@ var bubbleApp = {
 
       startBubbling: function () {
         var thisView = this;
+        
         this.interval = window.setInterval(function () {
           var coord = thisView.getRandomCoord();
           var bubbleView = self.createBubbleView(coord);
           thisView.$el.append(bubbleView.el);
-          bubbleView.creation = window.setTimeout(function () {
-            var diameter = bubbleView.bubble.diameter;
-            bubbleView.$el.css({
-              width: diameter + 'px',
-              height: diameter + 'px',
-              top: (bubbleView.bubble.posY - diameter / 2) + 'px',
-              left: (bubbleView.bubble.posX - diameter / 2) + 'px',
-              backgroundPosition: '0px ' + (bubbleView.bubble.backgroundPositionY + diameter / 2) + 'px',
-              fontSize: '14px',
-              lineHeight: diameter + 'px'
-              // transform: "scale(1)"
-            });
-            window.clearTimeout(bubbleView.creation);
-          }, 500);
-          self.painted.push(bubbleView);
+          bubbleView.trigger('onSettled');
+          // self.painted.push(bubbleView);
         }, 500);
       },
 
@@ -142,8 +132,8 @@ var bubbleApp = {
         window.clearInterval(this.interval);
         this.$el.empty();
         this.$el.hide();
-        // console.log(self.resultView);
         self.resultView.triggerEndGame(self.score.val);
+        self.timer.running = false;
         console.log('game ended after ' + ((new Date().getTime() - AppConfig.startTime) / 1000) + 's');
       }
     });
@@ -158,6 +148,7 @@ var bubbleApp = {
   },
 
   initTimer: function () {
+    // todo: rewrite with animation frame
     var self = this;
 
     this.timer.onTickTock = function () {
@@ -200,11 +191,11 @@ var bubbleApp = {
     return new BubbleView({
       bubble: bubble,
       updateScore: function (score) {
-        self.score.change(parseInt(score, 10));
+        self.timer.running && self.score.change(parseInt(score, 10));
       },
 
       updateTime: function (time) {
-        self.timer.add(parseInt(time, 10));
+        self.timer.running && self.timer.add(parseInt(time, 10));
       },
 
       getResult: function (bubble) {
