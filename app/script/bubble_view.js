@@ -2,12 +2,12 @@ var $ = require('zepto-browserify').$;
 var _ = require('underscore');
 var Backbone = require('backbone');
 var AppConfig = window.AppConfig;
+var FragmentsView = require('./fragments_view');
 var bubbleTmpl = require('../hbs/bubble.hbs');
-var fragmentTmpl = require('../hbs/fragment.hbs');
 
 module.exports = Backbone.View.extend({
 
-  maxDiameter: 100,
+  maxDiameter: 120,
   minDiameter: 60,
   bubble: null,
 
@@ -61,7 +61,7 @@ module.exports = Backbone.View.extend({
 
   triggerExplotion: function () {
 
-    var self= this;
+    var self = this;
 
     this.explotion = window.setTimeout(function () {
       // todo: bubble clicked, disappear animation
@@ -79,38 +79,23 @@ module.exports = Backbone.View.extend({
 
       window.clearTimeout(self.explotion);
       window.clearTimeout(self.destruction);
-    }, 50);
+    }, 500);
   },
 
   triggerFragmental: function () {
     var self = this;
 
     this.fragmental = window.setTimeout(function () {
-      var htmlArr = [];
-      var fragments = [];
-      var htmlStr = '';
-      var color = self.bubble.color;
-      var diameter = self.bubble.diameter;
-      
-      for (var i = 0; i < 10; i += 1) {
-        var d = _.random(2, diameter / 3);
-        fragments.push({
-          diameter: d,
-          color: self.bubble.color,
-          posX: (diameter - d) / 2,
-          posY: (diameter - d) / 2
-        });
-      }
 
-      self.$el.html(fragmentTmpl({
-        fragments: fragments
-      }));
+      self.fragmentsView = new FragmentsView({
+        bubble: self.bubble
+      });
+      self.$el.html(self.fragmentsView.render().el);
+      self.triggerSpreading();
 
       window.clearTimeout(self.fragmental);
 
-      self.triggerSpreading();
-
-    }, 500);
+    }, 100);
   },
 
   triggerSpreading: function () {
@@ -119,25 +104,39 @@ module.exports = Backbone.View.extend({
 
     var self = this;
 
-    self.spreading = window.setTimeout(function () {
-      var elFragments = self.$el.find('.bubble-fragment img');
+    this.spreading = window.setTimeout(function () {
 
-      for (var i = 0; i < 10; i += 1) {
-        elFragments[i].style.top = _.random(0, self.bubble.diameter / 2) + 'px';
-        elFragments[i].style.left = _.random(0, self.bubble.diameter / 2) + 'px';
-      }
+      self.fragmentsView.spread();
+      self.el.style.top = (parseInt(self.el.style.top, 10) - 30) + 'px';
 
-      self.$el.css({
-        top: (self.bubble.posY - 50) + 'px'
-      });
+      self.triggerReducing();
+      self.triggerAccelerating();
 
       self.removal = window.setTimeout(function () {
         self.$el.remove();
-      }, 1500);
+      }, 600);
       window.clearTimeout(self.spreading);
 
     }, 50);
 
+  },
+
+  triggerReducing: function () {
+    var self = this;
+
+    this.reducing = window.setTimeout(function () {
+      self.fragmentsView.reduce();
+      window.clearTimeout(self.reducing);
+    }, 200);
+  },
+
+  triggerAccelerating: function () {
+    var self = this;
+
+    this.accelerating = window.setTimeout(function () {
+      self.fragmentsView.loseWeight();
+      window.clearTimeout(self.accelerating);
+    }, 400);
   },
 
   onClickedBubble: function (e) {

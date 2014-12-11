@@ -22,7 +22,7 @@ var bubbleApp = {
   bubbles: bubbleData,
 
   timer: {
-    left: 15000,
+    left: 25000,
     interval: 250,
     ticktock: null,
     running: true,
@@ -125,7 +125,7 @@ var bubbleApp = {
           thisView.$el.append(bubbleView.el);
           bubbleView.trigger('onSettled');
           // self.painted.push(bubbleView);
-        }, 500);
+        }, 1000);
       },
 
       onEndGame: function () {
