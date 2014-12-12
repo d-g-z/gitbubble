@@ -137,7 +137,7 @@ var bubbleApp = {
           thisView.$el.append(bubbleView.el);
           bubbleView.trigger('onSettled');
           // self.painted.push(bubbleView);
-        }, 400);
+        }, 600);
       },
 
       onEndGame: function () {
@@ -153,6 +153,7 @@ var bubbleApp = {
     this.resultView = new ResultView({
       triggerRestartGame: function () {
         this.$el.hide();
+        self.lastBubble = {};
         self.score.reset();
         self.timer.reset();
         self.poolView.trigger('startGame');
@@ -220,7 +221,7 @@ var bubbleApp = {
       getResult: function (bubble) {
         var score = 0, time = 0, square = 0;
 
-        if (!!bubble.text && bubble.text === self.lastBubble.text) {
+        if (!!bubble.text && self.lastBubble.text && bubble.text === self.lastBubble.text) {
           self.combo++;
           square = self.combo - 1;
         } else {

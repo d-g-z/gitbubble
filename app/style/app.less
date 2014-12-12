@@ -126,6 +126,23 @@
       transition: all 0.5s;
     }
   }
+
+  .bubble-crack {
+    position: absolute;
+    transition: all 0.5s;
+
+    img {
+      width: 0;
+      height: 0;
+      transition: all 0.5s;
+    }
+  }
+
+  &.destruction {
+    .bubble-wrapper {
+      transition: all 0.5s; 
+    }
+  }
 }
 
 .result {

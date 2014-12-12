@@ -3,6 +3,7 @@ var _ = require('underscore');
 var Backbone = require('backbone');
 var AppConfig = window.AppConfig;
 var FragmentsView = require('./fragments_view');
+var CrackView = require('./crack_view');
 var bubbleTmpl = require('../hbs/bubble.hbs');
 
 module.exports = Backbone.View.extend({
@@ -64,22 +65,26 @@ module.exports = Backbone.View.extend({
     var self = this;
 
     this.explotion = window.setTimeout(function () {
-      // todo: bubble clicked, disappear animation
-      var diameter = self.bubble.diameter;
-      self.$wrapper.css({
-        width: (diameter / 2) + 'px',
-        height: (diameter / 2) + 'px',
-        fontSize: '7px',
-        lineHeight: (diameter / 2) + 'px',
-        top: (diameter / 4) + 'px',
-        left: (diameter / 4) + 'px'
-      });
-
+      self.triggerMinify();
       self.triggerFragmental();
 
       window.clearTimeout(self.explotion);
       window.clearTimeout(self.destruction);
     }, 500);
+  },
+
+  triggerMinify: function () {
+    // todo: font size fits bubble diameter
+    var diameter = this.bubble.diameter;
+    this.$wrapper.css({
+      width: (diameter / 2) + 'px',
+      height: (diameter / 2) + 'px',
+      fontSize: '7px',
+      lineHeight: (diameter / 2) + 'px',
+      top: (diameter / 4) + 'px',
+      left: (diameter / 4) + 'px',
+      opacity: 0
+    });
   },
 
   triggerFragmental: function () {
@@ -100,7 +105,7 @@ module.exports = Backbone.View.extend({
 
   triggerSpreading: function () {
 
-    // todo: reduce fragment bubble count, 
+    // todo: generate more tiny fragments while spreading
 
     var self = this;
 
@@ -137,6 +142,32 @@ module.exports = Backbone.View.extend({
       self.fragmentsView.loseWeight();
       window.clearTimeout(self.accelerating);
     }, 400);
+  },
+
+  triggerCracking: function () {
+    var self = this;
+
+    this.cracking = window.setTimeout(function () {
+      self.crackView.grow();
+      self.triggerMinify();
+      self.triggerRemoving();
+      window.clearTimeout(self.cracking);
+    }, 50);
+  },
+
+  triggerRemoving: function () {
+    var self = this;
+
+    this.removing = window.setTimeout(function () {
+      self.$el.css({
+        opacity: '0'
+      });
+      self.removal = window.setTimeout(function () {
+        self.$el.remove();
+        window.clearTimeout(self.removal);
+      }, 500);
+      window.clearTimeout(self.removing);
+    }, 500);
   },
 
   onClickedBubble: function (e) {
@@ -182,13 +213,13 @@ module.exports = Backbone.View.extend({
 
     this.destruction = window.setTimeout(function () {
       // todo: disable click event while destruction
-      self.$el.css({
-        opacity: 0
+      self.crackView = new CrackView({
+        bubble: self.bubble
       });
-      self.removal = window.setTimeout(function () {
-        self.$el.remove();
-        window.clearTimeout(self.removal);
-      }, 500);
+      self.$el.append(self.crackView.render().el);
+      self.$el.addClass('destruction');
+      self.triggerCracking();
+
       window.clearTimeout(self.destruction);
     }, 3000);
   },
