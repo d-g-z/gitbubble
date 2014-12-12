@@ -50,6 +50,7 @@ module.exports = Backbone.View.extend({
   },
 
   setStyle: function () {
+    // todo: onresize, change areaWidth areaHeight
     this.initStyle();
     this.$el.css({
       width: this.areaWidth + 'px',

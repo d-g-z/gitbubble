@@ -50,6 +50,8 @@ var bubbleApp = {
 
     start: function () {
       var self = this;
+
+      this.running = true;
       this.onTickTock();
 
       this.ticktock = window.setInterval(function () {
@@ -61,6 +63,11 @@ var bubbleApp = {
       window.clearInterval(this.ticktock);
       this.ticktock = null;
       console.log('ended');
+    },
+
+    reset: function () {
+      this.running = true;
+      this.left = 25000;
     }
   },
 
@@ -77,6 +84,11 @@ var bubbleApp = {
       }
       this.onScoreChanged(this.val);
       console.log('current score: ' + this.val);
+    },
+
+    reset: function () {
+      this.val = 0;
+      this.onScoreChanged(this.val);
     }
   },
 
@@ -125,7 +137,7 @@ var bubbleApp = {
           thisView.$el.append(bubbleView.el);
           bubbleView.trigger('onSettled');
           // self.painted.push(bubbleView);
-        }, 1000);
+        }, 400);
       },
 
       onEndGame: function () {
@@ -138,7 +150,14 @@ var bubbleApp = {
       }
     });
   
-    this.resultView = new ResultView();
+    this.resultView = new ResultView({
+      triggerRestartGame: function () {
+        this.$el.hide();
+        self.score.reset();
+        self.timer.reset();
+        self.poolView.trigger('startGame');
+      }
+    });
 
     this.$container.find('.welcome').remove();
     this.$container.append(this.headerView.el);

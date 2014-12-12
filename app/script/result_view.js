@@ -9,7 +9,10 @@ module.exports = Backbone.View.extend({
   templateData: {},
 
   events: {
+    'click .js_try_again': 'triggerRestartGame'
   },
+
+  triggerRestartGame: function () {},
 
   template: resultTmpl,
 
