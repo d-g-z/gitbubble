@@ -2,87 +2,236 @@
   width: 100%;
   height: 100%;
   position: relative;
-  background-color: #000;
+  background-color: #9AD6D2;
   font-family: 'ComicNeue-Bold';
 }
 
-.header {
+.background {
   width: 100%;
-  height: 50px;
-  color: #999;
-  border-bottom: 1px solid #282828;
+  height: 100%;
 
-  .score_view_wrapper {
-    width: 33%;
-    height: 100%;
-    float: left;
-    text-align: center;
-    line-height: 50px;
+  .white-buttom {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 0;
+    z-index: 10;
+    background-color: #FFF;
+    transition: all 2s;
   }
 
-  .time_view_wrapper {
-    width: 33%;
-    height: 100%;
-    float: left;
-
-    text-align: center;
-    line-height: 50px;
-  }
-
-  .logo_wrapper {
-    width: 34%;
-    height: 100%;
-    float: left;
-
-    h1 {
-      line-height: 50px;
-      text-align: center;
-    }
-  }
+  .main-background {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 0;
+    z-index: 20;
+    background-image: url('../image/background.png');
+    background-repeat: no-repeat;
+    background-position: bottom center;
+    background-size: auto 100%;
+    transition: all 2s;
+  } 
 }
 
 .welcome {
   position: absolute;
   width: 100%;
-  height: 50%;
-  top: 48%;
-  color: #FFF;
-  line-height: 100%;
-  vertical-align: center;
+  height: 70%;
+  top: 30%;
   text-align: center;
-  font-size: 1.2rem;
+  transition: all 2s;
+
+  .app-logo {
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 10px;
+    max-width: 90%;
+  }
+
+  .loading {
+    position: relative;
+    display: block;
+    width: 90%;
+    margin: 0 auto;
+    height: 60px;
+
+    .loading-process-santa {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-image: url('../image/santa-loading.png');
+      background-repeat: no-repeat;
+      background-size: auto 100%;
+      z-index: 20;
+    }
+
+    .loading-process-wrapper {
+      position: absolute;
+      top: 15px;
+      width: 100%;
+      height: 100%;
+    }
+
+    .loading-process-background {
+      z-index: 10;
+      display: block;
+      padding: 5px;
+      height: 20px;
+      border-radius: 15px;
+      background-color: #FFF;
+
+      .loading-process {
+        width: 25%;
+        height: 100%;
+        background-color: #ED4052;
+        border-radius: 10px;
+        z-index: 30;
+      }
+    }
+  }
+
+  .team {
+    position: absolute;
+    width: 100%;
+
+    bottom: 10px;
+    color: #FFF;
+    font-size: 20px;
+  }
+}
+
+.header {
+  position: absolute;
+  top: 10px;
+  width: 100%;
+  height: 40px;
+  color: #FFF;
+
+  .score_view_wrapper {
+    width: 50%;
+    height: 100%;
+    float: left;
+    text-align: center;
+    line-height: 40px;
+    background-image: url('../image/score-label.png');
+    background-repeat: no-repeat;
+    background-size: auto 100%;
+  }
+
+  .time_view_wrapper {
+    width: 35%;
+    height: 100%;
+    float: right;
+    text-align: center;
+    line-height: 40px;
+    background-image: url('../image/time-label.png');
+    background-repeat: no-repeat;
+    background-size: auto 100%;
+    background-position: 100% 0px;
+  }
 }
 
 .tips {
   position: absolute;
-  top: 30%;
-  left: 4%;
-  width: 70%;
-  padding: 10%;
-  border: 1px solid #282828;
-  color: #CCC;
-  border-radius: 4px;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 30;
+  color: #333;
+  opacity: 1;
+  background-image: url('../image/tips.png');
+  background-repeat: no-repeat;
+  background-size: auto 0;
+  background-position: 50% 50%;
+  transition: all 1s;
 
-  .tips_button_wrapper {
-    padding-top: 10%;
+  ul {
+    position: absolute;
+    top: 28%;
+  }
+
+  .tips-button-wrapper {
+    position: absolute;
+    top: 83.86%;
     width: 100%;
     text-align: center;
     a {
-        display: inline-block;
-        padding: 15px 0;
-        width: 100%;
-        border-radius: 4px;
-        background-color: #333;
-        color: #CCC;
+      display: inline-block;
+      img {
+        width: 0;
+        height: 0;
+        transition: all 2s;
+      }
+    }
+  }
+}
+
+.start {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 30;
+
+  .start-button-wrapper {
+    display: none;
+  }
+
+  p {
+    width: 100%;
+    height: 0;
+    // height: 34.31%;
+    background-repeat: no-repeat;
+    background-size: auto 100%;
+    background-position-y: 400px;
+    transition: all 2s;
+  }
+
+  .reindeer-start-wrapper {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 30;
+    background-position-x: -400px;
+    background-image: url('../image/reindeer-start.png');
+  }
+
+  .santa-start-wrapper {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    z-index: 35;
+    background-image: url('../image/santa-start.png');
+  }
+
+  .start-button-wrapper {
+    position: absolute;
+    display: block;
+    top: 30%;
+    width: 100%;
+
+    a {
+      margin: 0 auto;
+      display: block;
+      width: 0px;
+      height: 0px;
+      background-image: url('../image/start-button.png');
+      background-repeat: no-repeat;
+      background-size: auto 100%;
+      transition: all 2s;
     }
   }
 }
 
 .pool {
   display: block;
-  position: relative;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
   overflow: hidden;
-  background-color: #FFF;
+  z-index: 50;
 }
 
 .bubble {
@@ -90,11 +239,12 @@
   position: absolute;
   border-radius: 100%;
   transition: all 0.5s;
+  z-index: 50;
 
   .bubble-wrapper {
     display: block;
     position: relative;
-    z-index: 30;
+    z-index: 60;
     width: 0px;
     height: 0px;
     font-size: 0px;
@@ -102,14 +252,14 @@
 
     .bubble-image {
       position: absolute;
-      z-index: 10;
+      z-index: 40;
       width: 100%;
       height: 100%;
     }
 
     .bubble-text {
       position: absolute;
-      z-index: 20;
+      z-index: 50;
       display: block;
       text-align: center;
       color: #999;
@@ -149,15 +299,16 @@
   display: none;
   position: absolute;
   top: 50px;
+  z-index: 50;
   width: 100%;
 
   p {
     padding-top: 60%;
-    color: #FFF;
+    color: #666;
     text-align: center;
 
     a {
-      color: #FFF;
+      color: #333;
     }
   }
 }

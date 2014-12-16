@@ -69,7 +69,6 @@ module.exports = Backbone.View.extend({
       self.triggerFragmental();
 
       window.clearTimeout(self.explotion);
-      window.clearTimeout(self.destruction);
     }, 500);
   },
 
@@ -185,13 +184,14 @@ module.exports = Backbone.View.extend({
     this.triggerExplotion();
     this.updateScore(res.score);
     this.updateTime(res.time);
+    
+    window.clearTimeout(self.destruction);
   },
 
   onSettled: function () {
     // todo: 
     // 1. rewrite with animation frame
     // 2. reduce destuction timeout according to timer
-    // 3. remove image border.
 
     var self = this;
 
@@ -206,7 +206,6 @@ module.exports = Backbone.View.extend({
         left: '0px',
         fontSize: '14px',
         lineHeight: diameter + 'px'
-        // transform: "scale(1)"
       });
       window.clearTimeout(self.creation);
     }, 500);

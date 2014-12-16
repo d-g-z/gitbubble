@@ -3,6 +3,9 @@ var _ = require('underscore');
 var Backbone = require('backbone');
 Backbone.$ = window.$ = $;
 
+var WelcomeView = require('./welcome_view');
+var BackgroundView = require('./background_view');
+var StartView = require('./start_view');
 var TipsView = require('./tips_view');
 var HeaderView = require('./header_view');
 var PoolView = require('./pool_view');
@@ -98,21 +101,56 @@ var bubbleApp = {
     this.initViews();
     this.initTimer();
     this.initScore();
+    this.loadResources();
     console.log('Inited in ' + (AppConfig.initTime - AppConfig.startTime) / 1000 + 's.');
   },
 
-  initViews: function () {
-    // todo || consider: 
-    // 1. loading: 3 seconds.
+  loadResources: function () {
+    // todo: use real resources load time, not a temporary timer
     var self = this;
+    this.loadingResources = window.setTimeout(function () {
+      self.onResourcesLoaded();
+      window.clearTimeout(this.loadingResources);
+      self.loadResources = null;
+    }, 300);
+  },
+
+  onResourcesLoaded: function () {
+    this.docHeight = $(document).height();
+    this.docWidth = $(document).width();
+
+    var dimension = {
+      w: this.docWidth,
+      h: this.docHeight
+    };
+
+    this.welcomeView.trigger('loadEnded');
+    this.startView.trigger('startLoadElements', dimension);
+    this.backgroundView.trigger('setBackground');
+  },
+
+  initViews: function () {
+    var self = this;
+
+    this.welcomeView = new WelcomeView({
+      $welcome: this.$container.find('.welcome')
+    });
+
+    this.backgroundView = new BackgroundView({
+      $background: this.$container.find('.background')
+    });
 
     this.tipsView = new TipsView({
       triggerStartGame: function () {
-        // todo:
-        // 1. adjust tips container height, make it vertical center
-        // 2. animate hide tip box.
-        this.$el.hide();
+        self.headerView.trigger('startGame');
         self.poolView.trigger('startGame');
+      }
+    });
+
+    this.startView = new StartView({
+      triggerShowTips: function () {
+        self.welcomeView.hideLogo();
+        self.tipsView.startLoadElements();
       }
     });
 
@@ -160,8 +198,8 @@ var bubbleApp = {
       }
     });
 
-    this.$container.find('.welcome').remove();
     this.$container.append(this.headerView.el);
+    this.$container.append(this.startView.el);
     this.$container.append(this.tipsView.el);
     this.$container.append(this.poolView.el);
     this.$container.append(this.resultView.el);

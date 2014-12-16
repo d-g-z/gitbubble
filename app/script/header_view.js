@@ -18,7 +18,9 @@ module.exports = Backbone.View.extend({
 
   initialize: function (options) {
     _.extend(this, options);
+    this.on('startGame', this.showHeader);
     this.render();
+    this.$el.hide();
   },
 
   updateTime: function (timeLeft) {
@@ -31,6 +33,10 @@ module.exports = Backbone.View.extend({
     if (!isNaN(score) && parseInt(score, 10) >= 0) {
       this.$score.text(score);
     }
+  },
+
+  showHeader: function () {
+    this.$el.show();
   },
 
   render: function () {
