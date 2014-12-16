@@ -26,8 +26,19 @@ module.exports = Backbone.View.extend({
     // todo: on transition end, remove welcome element
   },
 
+  updateLoadingProcess: function (percentage) {
+    this.$santa.css({
+      backgroundPositionX: percentage + '%'
+    });
+    this.$blood.css({
+      width: percentage + '%'
+    });
+  },
+
   render: function () {
     this.setElement(this.$welcome);
+    this.$blood = this.$el.find('.loading-process');
+    this.$santa = this.$el.find('.loading-process-santa');
     return this;
   }
 });

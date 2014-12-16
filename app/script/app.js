@@ -25,7 +25,7 @@ var bubbleApp = {
   bubbles: bubbleData,
 
   timer: {
-    left: 5000,
+    left: 15000,
     interval: 250,
     ticktock: null,
     running: true,
@@ -70,7 +70,7 @@ var bubbleApp = {
 
     reset: function () {
       this.running = true;
-      this.left = 5000;
+      this.left = 15000;
     }
   },
 
@@ -108,11 +108,17 @@ var bubbleApp = {
   loadResources: function () {
     // todo: use real resources load time, not a temporary timer
     var self = this;
+
+    this.fakeLoadingProcess = window.setTimeout(function () {
+      self.welcomeView.updateLoadingProcess(100);
+      window.clearTimeout(self.fakeLoadingProcess);
+    }, 1000);
+
     this.loadingResources = window.setTimeout(function () {
       self.onResourcesLoaded();
       window.clearTimeout(this.loadingResources);
       self.loadResources = null;
-    }, 300);
+    }, 3000);
   },
 
   onResourcesLoaded: function () {
