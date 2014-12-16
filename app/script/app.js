@@ -25,7 +25,7 @@ var bubbleApp = {
   bubbles: bubbleData,
 
   timer: {
-    left: 25000,
+    left: 5000,
     interval: 250,
     ticktock: null,
     running: true,
@@ -70,7 +70,7 @@ var bubbleApp = {
 
     reset: function () {
       this.running = true;
-      this.left = 25000;
+      this.left = 5000;
     }
   },
 

@@ -21,8 +21,9 @@ module.exports = Backbone.View.extend({
 
   hideLogo: function () {
     this.$el.css({
-      top: '-10%'
+      top: '-20%'
     });
+    // todo: on transition end, remove welcome element
   },
 
   render: function () {

@@ -32,6 +32,8 @@ module.exports = Backbone.View.extend({
       width: '0px',
       height: '0px'
     });
+    // todo:
+    // on transition end, remove element
     this.triggerShowTips();
   },
 

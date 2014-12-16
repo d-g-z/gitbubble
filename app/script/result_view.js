@@ -23,11 +23,19 @@ module.exports = Backbone.View.extend({
 
   render: function () {
     this.setElement(this.template(this.templateData));
+    // todo: on resize, calc result text position
     return this;
   },
 
   triggerEndGame: function (score) {
+    var w = $(document).width();
     this.$el.find('.js_result_score').text(score);
+    this.$el.css({
+      height: (w / 400 * 666) + 'px'
+    });
+    this.$el.find('.result-text-wrapper').css({
+      top: (w * 0.8 / 400 * 666 * 0.34 + 60) + 'px'
+    });
     this.$el.show();
   }
 });
