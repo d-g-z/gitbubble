@@ -6,6 +6,9 @@ var poolTmpl = require('../hbs/pool.hbs');
 
 module.exports = Backbone.View.extend({
 
+  initialInterval: 1000,
+  speed: 0,
+  playing: true,
   areaWidth: 0,
   areaHeight: 0,
   bubbling: null,
@@ -23,6 +26,7 @@ module.exports = Backbone.View.extend({
   startShaking: function () {},
 
   onStartGame: function () {
+    this.playing = true;
     this.$el.show();
     this.setStyle();
     this.startTimer();
@@ -35,6 +39,7 @@ module.exports = Backbone.View.extend({
 
   initialize: function (options) {
     _.extend(this, options);
+    this.setSpeed();
     this.on('startGame', this.onStartGame);
     this.on('endGame', this.onEndGame);
     this.render();
@@ -60,5 +65,20 @@ module.exports = Backbone.View.extend({
       width: this.areaWidth + 'px',
       height: this.areaHeight + 'px'
     });
+  },
+
+  setSpeed: function () {
+    this.interval = this.initialInterval / (1 + 0.06 * this.speed);
+  },
+
+  changeInterval: function (speed) {
+    if (!this.playing) {
+      return;
+    }
+
+    this.speed = speed;
+    this.pauseBubbling();
+    this.setSpeed();
+    this.startBubbling();
   }
 });

@@ -40,7 +40,9 @@ module.exports = Backbone.View.extend({
   },
 
   render: function () {
-    this.setElement(this.template());
+    this.setElement(this.template({
+      initialTime: this.initialTime
+    }));
     this.$score = this.$el.find('.js_score');
     this.$time = this.$el.find('.js_time');
     return this;

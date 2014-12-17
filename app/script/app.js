@@ -26,8 +26,11 @@ var bubbleApp = {
   bubbles: bubbleData,
 
   timer: {
-    left: 25000,
+    initial: 60000,
+    left: 0,
+    passed: 0,
     interval: 250,
+    accelerateInterval: 5000,
     ticktock: null,
     running: true,
 
@@ -37,25 +40,28 @@ var bubbleApp = {
 
     add: function (time) {
       this.left += time;
+      this.passed += time;
       this.onTickTock();
     },
 
     reduce: function (time) {
       if (this.left - time > 0) {
         this.left -= time;
-        console.log('timer left: ' + this.left + 's');
+        console.log('timer left: ' + this.left + 'ms, passed: ' + this.passed + 'ms');
       } else {
         this.left = 0;
         this.onRunOut();
         this.end();
       }
+
+      this.passed += time;
       this.onTickTock();
     },
 
     start: function () {
       var self = this;
 
-      this.running = true;
+      this.reset();
       this.onTickTock();
 
       this.ticktock = window.setInterval(function () {
@@ -71,7 +77,8 @@ var bubbleApp = {
 
     reset: function () {
       this.running = true;
-      this.left = 25000;
+      this.left = this.initial;
+      this.passed = 0;
     },
 
     pause: function () {
@@ -95,6 +102,7 @@ var bubbleApp = {
 
   score: {
     val: 0,
+    shakeScore: 1000,
 
     onScoreChanged: function (score) {},
 
@@ -138,7 +146,7 @@ var bubbleApp = {
       self.onResourcesLoaded();
       window.clearTimeout(this.loadingResources);
       self.loadResources = null;
-    }, 500);
+    }, 3000);
   },
 
   onResourcesLoaded: function () {
@@ -180,7 +188,9 @@ var bubbleApp = {
       }
     });
 
-    this.headerView = new HeaderView();
+    this.headerView = new HeaderView({
+      initialTime: this.timer.initial / 1000
+    });
 
     this.poolView = new PoolView({
       initStyle: function () {
@@ -198,7 +208,7 @@ var bubbleApp = {
         }
 
         var thisView = this;
-        var totalTime = self.timer.left - 7000;
+        var totalTime = self.timer.initial - 10000;
         var amount = _.random(1, 2);
         var timeIndex = 10000;
         var timeoutShake = function () {
@@ -209,33 +219,34 @@ var bubbleApp = {
 
           var randomStart = timeIndex;
           var randomEnd = totalTime / amount * i;
-          var shakeTime = _.random(randomStart, randomEnd);
-
-          console.log('shake time', shakeTime);
-
-          timeIndex = shakeTime + 7000;
-
-          this.shakings.push(window.setTimeout(timeoutShake, shakeTime));
+          
+          if (randomEnd > randomStart) {
+            var shakeTime = _.random(randomStart, randomEnd);
+            timeIndex = shakeTime + 10000;
+            this.shakings.push(window.setTimeout(timeoutShake, shakeTime));
+          }
         }
       },
 
       startBubbling: function () {
         var thisView = this;
-        
-        this.interval = window.setInterval(function () {
-          var coord = thisView.getRandomCoord();
-          var bubbleView = self.createBubbleView(coord);
+
+        this.bubbling = window.setInterval(function () {
+          var options = thisView.getRandomCoord();
+          _.extend(options, { speed: thisView.speed });
+          var bubbleView = self.createBubbleView(options);
           thisView.$el.append(bubbleView.el);
           bubbleView.trigger('onSettled');
-        }, 600);
+        }, this.interval);
       },
 
       pauseBubbling: function () {
-        window.clearInterval(this.interval);
+        window.clearInterval(this.bubbling);
       },
 
       onEndGame: function () {
-        window.clearInterval(this.interval);
+        this.playing = false;
+        window.clearInterval(this.bubbling);
         this.$el.empty();
         this.$el.hide();
         self.resultView.triggerEndGame(self.score.val);
@@ -261,7 +272,7 @@ var bubbleApp = {
     if (this.hasDeviceMotion) {
       this.shakeView = new ShakeView({
         onceShaked: function () {
-          self.score.change(1000);
+          self.score.change(self.score.shakeScore);
         },
 
         onShakingStarted: function () {
@@ -295,6 +306,10 @@ var bubbleApp = {
       if (this.left % 1000 === 0) {
         self.headerView.updateTime(this.left / 1000); 
       }
+
+      if (this.passed % this.accelerateInterval === 0) {
+        self.accelerateGame(this.passed / this.accelerateInterval);
+      }
     };
 
     this.timer.onRunOut = function () {
@@ -310,8 +325,14 @@ var bubbleApp = {
     };
   },
 
+  accelerateGame: function (speed) {
+    if (speed > 0) {
+      this.poolView.changeInterval(speed); 
+    }
+  },
+
   getRandomBubble: function () {
-    if (Math.random() >= 0.5) {
+    if (Math.random() >= 0.7) {
       // empty bubble
       return {
         text: '',
@@ -322,11 +343,11 @@ var bubbleApp = {
     return this.bubbles[_.random(0, this.bubbles.length - 1)];
   },
 
-  createBubbleView: function (coord) {
+  createBubbleView: function (options) {
     var self = this;
     var bubble = this.getRandomBubble();
     
-    _.extend(bubble, coord);
+    _.extend(bubble, options);
 
     return new BubbleView({
       bubble: bubble,

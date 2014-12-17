@@ -33,6 +33,7 @@ module.exports = Backbone.View.extend({
 
   initialize: function (options) {
     _.extend(this, options);
+    this.speed = this.bubble.speed;
     this.bubble.diameter = this.getRandomDiameter();
     this.bubble.color = this.getRandomColor();
     this.on('onSettled', this.onSettled);
@@ -73,7 +74,6 @@ module.exports = Backbone.View.extend({
   },
 
   triggerMinify: function () {
-    // todo: font size fits bubble diameter
     var diameter = this.bubble.diameter;
     this.$wrapper.css({
       width: (diameter / 2) + 'px',
@@ -161,10 +161,9 @@ module.exports = Backbone.View.extend({
       self.$el.css({
         opacity: '0'
       });
-      self.removal = window.setTimeout(function () {
+      self.el.addEventListener('transitionend', function () {
         self.$el.remove();
-        window.clearTimeout(self.removal);
-      }, 500);
+      });
       window.clearTimeout(self.removing);
     }, 500);
   },
@@ -230,6 +229,10 @@ module.exports = Backbone.View.extend({
       window.clearTimeout(self.creation);
     }, 500);
 
+    this.destructionTimeout = 3000 / (1 + 0.04 * this.speed);
+
+    // console.log(this.speed)
+
     this.destruction = window.setTimeout(function () {
       // todo: disable click event while destruction
       self.crackView = new CrackView({
@@ -240,7 +243,7 @@ module.exports = Backbone.View.extend({
       self.triggerCracking();
 
       window.clearTimeout(self.destruction);
-    }, 3000);
+    }, this.destructionTimeout);
   },
 
   getRandomDiameter: function () {
