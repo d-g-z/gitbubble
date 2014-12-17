@@ -234,10 +234,6 @@ var bubbleApp = {
         window.clearInterval(this.interval);
       },
 
-      // resumeBubbling: function () {
-      //   this.startBubbling();
-      // },
-
       onEndGame: function () {
         window.clearInterval(this.interval);
         this.$el.empty();

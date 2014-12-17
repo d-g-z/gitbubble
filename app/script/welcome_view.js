@@ -12,18 +12,23 @@ module.exports = Backbone.View.extend({
   },
 
   onLoadEnded: function () {
-    this.$el.find('.loading').hide();
-    this.$el.find('.team').hide();
+    this.$el.find('.loading').remove();
+    this.$el.find('.team').remove();
     this.$el.css({
       top: '7%'
     });
   },
 
   hideLogo: function () {
+    var self = this;
+
     this.$el.css({
       top: '-20%'
     });
-    // todo: on transition end, remove welcome element
+
+    this.el.addEventListener('transitionend', function () {
+      self.$el.remove();
+    }, true);
   },
 
   updateLoadingProcess: function (percentage) {

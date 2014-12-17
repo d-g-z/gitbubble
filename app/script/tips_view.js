@@ -17,6 +17,8 @@ module.exports = Backbone.View.extend({
   triggerStartGame: function () {},
 
   onStartGame: function () {
+    var self = this;
+
     this.$go.css({
       width: '0px',
       height: '0px'
@@ -25,6 +27,9 @@ module.exports = Backbone.View.extend({
       top: '-100%'
     });
     this.triggerStartGame();
+    this.el.addEventListener('transitionend', function () {
+      self.$el.remove();
+    }, true);
   },
 
   initialize: function (options) {

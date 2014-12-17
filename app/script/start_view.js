@@ -22,6 +22,8 @@ module.exports = Backbone.View.extend({
   },
 
   startShowTips: function () {
+    var self = this;
+    
     this.$reindeer.css({
       backgroundPositionX: '-400px'
     });
@@ -32,9 +34,11 @@ module.exports = Backbone.View.extend({
       width: '0px',
       height: '0px'
     });
-    // todo:
-    // on transition end, remove element
+
     this.triggerShowTips();
+    this.$reindeer.get(0).addEventListener('transitionend', function () {
+      self.$el.remove();
+    }, true);
   },
 
   startLoadElements: function (dimension) {

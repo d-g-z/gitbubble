@@ -81,7 +81,7 @@ module.exports = Backbone.View.extend({
       currentTime = new Date();
       timeDifference = currentTime.getTime() - this.lastTime.getTime();
 
-      if (timeDifference > 50) {
+      if (timeDifference > 100) {
         window.dispatchEvent(this.event);
         this.lastTime = new Date();
       }
