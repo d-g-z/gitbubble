@@ -379,3 +379,101 @@
     }
   }
 }
+
+.shake {
+
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 60;
+  
+  .shake-wrapper {
+
+    position: relative;
+    max-width: 300px;
+    height: 300px;
+    top: 120px;
+    margin: 0 auto;
+    background-image: url('../image/shake-star.png');
+    background-size: auto 100%;
+    background-repeat: no-repeat;
+    background-position: center center;
+
+    p {
+      position: absolute;
+      display: block;
+      background-repeat: no-repeat;
+      background-size: auto 100%;
+      -moz-animation: shaking 0.2s infinite ease;
+      -webkit-animation: shaking 0.2s infinite ease;
+      animation: shaking 0.2s infinite ease;
+    }
+
+    .shake-reindeer {
+      top: 35px;
+      left: 65px;
+      width: 110px;
+      height: 110px;
+      background-image: url('../image/reindeer-shake.png');
+    }
+
+    .shake-text {
+      top: 65px;
+      left: 70px;
+      width: 180px;
+      height: 180px;
+      background-image: url('../image/shake-text.png');
+    }
+
+    .shake-santa {
+      bottom: 50px;
+      right: 60px;
+      width: 90px;
+      height: 90px;
+      background-image: url('../image/santa-shake.png');
+    }
+
+    @-webkit-keyframes shaking {
+      0% {
+        -webkit-transform: rotate(15deg);
+      }
+
+      50% {
+        -webkit-transform: rotate(0deg);
+      }
+
+      100% {
+        -webkit-transform: rotate(15deg);
+      };
+    }
+
+    @-moz-keyframes shaking {
+      0% {
+        -moz-transform: rotate(15deg);
+      }
+
+      50% {
+        -moz-transform: rotate(0deg);
+      }
+
+      100% {
+        -moz-transform: rotate(15deg);
+      };
+    }
+
+    @keyframes shaking {
+      0% {
+        -moz-transform: rotate(15deg);
+      }
+
+      50% {
+        -moz-transform: rotate(0deg);
+      }
+
+      100% {
+        -moz-transform: rotate(15deg);
+      };
+    }
+  }
+}

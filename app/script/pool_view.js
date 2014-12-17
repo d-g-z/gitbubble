@@ -9,6 +9,7 @@ module.exports = Backbone.View.extend({
   areaWidth: 0,
   areaHeight: 0,
   bubbling: null,
+  shakings: [],
 
   events: {
   },
@@ -19,10 +20,13 @@ module.exports = Backbone.View.extend({
 
   startBubbling: function () {},
 
+  startShaking: function () {},
+
   onStartGame: function () {
     this.$el.show();
     this.setStyle();
     this.startTimer();
+    this.startShaking();
     this.startBubbling();
     console.log('game started after ' + ((new Date().getTime() - AppConfig.startTime) / 1000) + 's');
   },
