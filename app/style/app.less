@@ -180,7 +180,7 @@
       img {
         width: 0;
         height: 0;
-        transition: all ease 2s;
+        transition: all ease 1s;
       }
     }
   }
@@ -239,6 +239,55 @@
       background-repeat: no-repeat;
       background-size: auto 100%;
       transition: all ease 2s;
+      -webkit-animation: floatingAround 5s infinite linear;
+
+      @-webkit-keyframes floatingAround {
+        0% {
+          margin-top: 5%;
+          margin-left: 35%;
+        }
+
+        12.5% {
+          margin-top: 0%;
+          margin-left: 35%;
+        }
+
+        25% {
+          margin-top: 0%;
+          margin-left: 40%;
+        }
+
+        37.5% {
+          margin-top: 0%;
+          margin-left: 35%;
+        }
+
+        50% {
+          margin-top: -5%;
+          margin-left: 35%; 
+        }
+
+        62.5% {
+          margin-top: 0%;
+          margin-left: 35%;
+        }
+
+        75% {
+          margin-top: 0%;
+          margin-left: 30%;
+        }
+
+        87.5% {
+          margin-top: 0%;
+          margin-left: 35%;
+        }
+
+        100% {
+          margin-top: 5%;
+          margin-left: 35%; 
+        };
+      }
+
     }
   }
 }
@@ -478,15 +527,15 @@
 
     @keyframes shaking {
       0% {
-        -moz-transform: rotate(15deg);
+        transform: rotate(15deg);
       }
 
       50% {
-        -moz-transform: rotate(0deg);
+        transform: rotate(0deg);
       }
 
       100% {
-        -moz-transform: rotate(15deg);
+        transform: rotate(15deg);
       };
     }
   }
