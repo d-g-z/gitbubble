@@ -176,15 +176,26 @@ module.exports = Backbone.View.extend({
 
     var self = this;
     var res = this.getResult(el.dataset);
-    var score = parseInt(res.score);
+    var score = parseInt(res.score, 10);
+    var time = parseInt(res.time, 10);
+    var clickedTxt = '';
 
     el.dataset.clicked = '1';
-    $(el).find('span').html((score > 0) ? '+' + score : score);
+
+    if (score === 0 && time > 0) {
+      clickedTxt = '+' + time / 1000 + 's';
+    } else if (score > 0) {
+      clickedTxt = '+' + score;
+    } else {
+      clickedTxt = score;
+    }
+
+    $(el).find('span').html(clickedTxt);
 
     this.triggerExplotion();
     this.updateScore(res.score);
     this.updateTime(res.time);
-    
+
     window.clearTimeout(self.destruction);
   },
 
@@ -199,12 +210,21 @@ module.exports = Backbone.View.extend({
 
     this.creation = window.setTimeout(function () {
       var diameter = self.bubble.diameter;
+      var textLen = self.bubble.text.length;
+      var fontSize;
+
+      if (textLen === 0) {
+        fontSize = diameter / 5;
+      } else {
+        fontSize = diameter / textLen * 1.1;
+      }
+
       self.$wrapper.css({
         width: diameter + 'px',
         height: diameter + 'px',
         top: '0px',
         left: '0px',
-        fontSize: '14px',
+        fontSize: fontSize + 'px',
         lineHeight: diameter + 'px'
       });
       window.clearTimeout(self.creation);
