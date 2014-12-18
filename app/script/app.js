@@ -246,9 +246,14 @@ var bubbleApp = {
 
       onEndGame: function () {
         this.playing = false;
-        window.clearInterval(this.bubbling);
+        this.speed = 0;
+        
+        this.setSpeed();
         this.$el.empty();
         this.$el.hide();
+
+        window.clearInterval(this.bubbling);
+
         self.resultView.triggerEndGame(self.score.val);
         self.timer.running = false;
 

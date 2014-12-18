@@ -23,7 +23,11 @@ module.exports = Backbone.View.extend({
 
   startBubbling: function () {},
 
+  pauseBubbling: function () {},
+
   startShaking: function () {},
+
+  onEndGame: function () {},
 
   onStartGame: function () {
     this.playing = true;
