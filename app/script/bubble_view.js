@@ -181,17 +181,19 @@ module.exports = Backbone.View.extend({
 
     el.dataset.clicked = '1';
 
-    if (score === 0 && time > 0) {
-      clickedTxt = '+' + time / 1000 + 's';
-    } else if (score > 0) {
-      clickedTxt = '+' + score;
-    } else {
-      clickedTxt = score;
-    }
+    // if (score === 0 && time > 0) {
+    //   clickedTxt = '+' + time / 1000 + 's';
+    // } else if (score > 0) {
+    //   clickedTxt = '+' + score;
+    // } else {
+    //   clickedTxt = score;
+    // }
 
-    $(el).find('span').html(clickedTxt);
+    // $(el).find('span').html(clickedTxt);
 
-    this.triggerExplotion();
+    // this.triggerExplotion();
+    this.triggerMinify();
+    this.triggerFragmental();
     this.updateScore(res.score);
     this.updateTime(res.time);
 
@@ -201,7 +203,6 @@ module.exports = Backbone.View.extend({
   onSettled: function () {
     // todo: 
     // 1. rewrite with animation frame
-    // 2. reduce destuction timeout according to timer
 
     var self = this;
 
@@ -230,8 +231,6 @@ module.exports = Backbone.View.extend({
     }, 500);
 
     this.destructionTimeout = 3000 / (1 + 0.04 * this.speed);
-
-    // console.log(this.speed)
 
     this.destruction = window.setTimeout(function () {
       // todo: disable click event while destruction

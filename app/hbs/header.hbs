@@ -1,8 +1,14 @@
 <header class="header">
-  <div class="score_view_wrapper">
-    <span class="js_score">0</span>
+  <div class="header-label">
+    <div class="score-view-wrapper">
+      <span class="js_score">{{ initialScore }}</span>
+    </div>
+    <div class="time-view-wrapper">
+      <span class="js_time">{{ initialTime }}</span>
+    </div>
   </div>
-  <div class="time_view_wrapper">
-    <span class="js_time">25</span>
+  <div class="header-text">
+    <span class="score-change js_changed_score">+500</span>
+    <span class="time-change js_changed_time">+5s</span>
   </div>
 </header>

@@ -1,61 +1,57 @@
 [{
   text: 'clone',
-  score: 100,
+  score: 500,
   time: 0
 }, {
   text: 'commit',
-  score: 100,
+  score: 500,
   time: 0
 }, {
   text: 'rebase',
-  score: 100,
+  score: 500,
   time: 0
 }, {
   text: 'add',
-  score: 100,
+  score: 500,
   time: 0
 }, {
-  text: 'gitcafe',
-  score: 0,
-  time: 5000
-}, {
   text: 'status',
-  score: 100,
+  score: 500,
   time: 0
 }, {
   text: 'merge',
-  score: 100,
+  score: 500,
   time: 0
 }, {
   text: 'init',
-  score: 100,
+  score: 500,
   time: 0
 }, {
   text: 'branch',
-  score: 100,
+  score: 500,
   time: 0
 }, {
   text: 'fetch',
-  score: 100,
+  score: 500,
   time: 0
 }, {
   text: 'diff',
-  score: 100,
+  score: 500,
   time: 0
 }, {
   text: 'pull',
-  score: 100,
+  score: 500,
   time: 0
 }, {
   text: 'push',
-  score: 100,
+  score: 500,
   time: 0
 }, {
   text: 'reset',
-  score: 100,
+  score: 500,
   time: 0
 }, {
   text: 'tag',
-  score: 100,
+  score: 500,
   time: 0
 }]

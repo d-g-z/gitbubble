@@ -102,7 +102,7 @@ var bubbleApp = {
 
   score: {
     val: 0,
-    shakeScore: 1000,
+    shakeScore: 500,
 
     onScoreChanged: function (score) {},
 
@@ -332,15 +332,28 @@ var bubbleApp = {
   },
 
   getRandomBubble: function () {
-    if (Math.random() >= 0.7) {
+    var bubble;
+    var rand = Math.random();
+
+    if (rand >= 0.7) {
       // empty bubble
-      return {
+      bubble = {
         text: '',
-        score: -100,
+        score: -1000,
         time: 0
       };
+    } else if (rand <= 0.04) {
+      // gitcafe bubble
+      bubble =  {
+        text: 'gitcafe',
+        score: 0,
+        time: 5000
+      };
+    } else {
+      bubble = this.bubbles[_.random(0, this.bubbles.length - 1)];
     }
-    return this.bubbles[_.random(0, this.bubbles.length - 1)];
+
+    return bubble;
   },
 
   createBubbleView: function (options) {
@@ -352,11 +365,17 @@ var bubbleApp = {
     return new BubbleView({
       bubble: bubble,
       updateScore: function (score) {
-        self.timer.running && self.score.change(parseInt(score, 10));
+        if (self.timer.running) {
+          self.score.change(parseInt(score, 10));
+          self.headerView.updateChangedScore(score);
+        } 
       },
 
       updateTime: function (time) {
-        self.timer.running && self.timer.add(parseInt(time, 10));
+        if (self.timer.running) {
+          self.timer.add(parseInt(time, 10));
+          self.headerView.updateChangedTime(time);
+        } 
       },
 
       getResult: function (bubble) {
