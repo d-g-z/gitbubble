@@ -1,9 +1,12 @@
 var gulp = require('gulp');
 var less = require('gulp-less');
+var uglify = require('gulp-uglify');
+var minifyCss = require('gulp-minify-css');
 var deploy = require('gulp-gitcafe-pages');
 var browserify = require('browserify');
 var browserSync = require('browser-sync');
 var source = require('vinyl-source-stream');
+var buffer = require('vinyl-buffer');
 var hbsfy = require('hbsfy');
 var del = require('del');
 
@@ -12,6 +15,7 @@ var defaultPort = '9000';
 gulp.task('style', function () {
   return gulp.src('app/style/*.less')
     .pipe(less())
+    .pipe(minifyCss())
     .pipe(gulp.dest('app/css/'));
 });
 
@@ -19,6 +23,8 @@ gulp.task('script', function () {
   return browserify('./app/script/app.js')
     .bundle()
     .pipe(source('main.js'))
+    .pipe(buffer())
+    .pipe(uglify())
     .pipe(gulp.dest('app/js/'));
 });
 
