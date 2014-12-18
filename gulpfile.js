@@ -2,7 +2,7 @@ var gulp = require('gulp');
 var less = require('gulp-less');
 var uglify = require('gulp-uglify');
 var minifyCss = require('gulp-minify-css');
-var deploy = require('gulp-gitcafe-pages');
+var deploy = require('gulp-gh-pages');
 var browserify = require('browserify');
 var browserSync = require('browser-sync');
 var source = require('vinyl-source-stream');
@@ -77,7 +77,9 @@ gulp.task('dist', ['clean', 'style', 'script'], function () {
 
 gulp.task('deploy', ['dist'], function () {
   return gulp.src('dist/**/*')
-    .pipe(deploy());
+    .pipe(deploy({
+      branch: 'gitcafe-pages'
+    }));
 });
 
 gulp.task('default', ['server']);
