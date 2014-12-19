@@ -194,8 +194,8 @@ var bubbleApp = {
 
     this.poolView = new PoolView({
       initStyle: function () {
-        this.areaHeight = $(document).height() - self.headerView.$el.height();
-        this.areaWidth = $(document).width();
+        this.areaHeight = $(window).height() - self.headerView.$el.height();
+        this.areaWidth = $(window).width();
       },
 
       startTimer: function () {
