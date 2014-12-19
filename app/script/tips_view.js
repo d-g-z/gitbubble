@@ -18,13 +18,10 @@ module.exports = Backbone.View.extend({
 
   onStartGame: function () {
     var self = this;
-
-    this.$go.css({
-      width: '0px',
-      height: '0px'
-    });
+    $(window).scrollTop(0);
     this.$el.css({
-      top: '-100%'
+      top: '-100%',
+      opacity: '0'
     });
     this.triggerStartGame();
     this.el.addEventListener('transitionend', function () {
@@ -39,19 +36,16 @@ module.exports = Backbone.View.extend({
   },
 
   startLoadElements: function () {
+    var w = $(document).width();
     this.$el.show();
     this.$el.css({
-      backgroundSize: 'auto 100%'
-    });
-    this.$go.css({
-      width: '100%',
-      height: '100%'
+      height: (w / 450 * 808) + 'px',
+      backgroundSize: '100% auto'
     });
   },
     
   render: function () {
     this.setElement(this.template());
-    this.$go = this.$el.find('.go-button');
     return this;
   }
 });
