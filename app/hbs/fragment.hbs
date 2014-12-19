@@ -1,5 +1,5 @@
 <div class="bubble-fragment">
   {{#each fragments}}
-  <img src="../image/bubble-{{ ../color }}-small.png" data-diameter="{{ diameter }}" style="width: {{ diameter }}px; height: {{ diameter }}px; top: {{ posY }}px; left: {{ posX }}px;" />
+  <img src="../image/bubble-{{ ../color }}-small.png" data-diameter="{{ diameter }}" data-posx="{{ posX }}" data-posy="{{ posY }}" style="width: {{ diameter }}px; height: {{ diameter }}px; top: {{ ../center }}px; left: {{ ../center }}px; opacity: 0;" />
   {{/each}}
 </div>

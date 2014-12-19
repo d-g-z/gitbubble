@@ -17,43 +17,68 @@ module.exports = Backbone.View.extend({
     this.smallFragments = [];
 
     var diameter = options.bubble.diameter;
+    var unit = diameter / 5;
 
-    for (var i = 0; i < 10; i += 1) {
-      var d = _.random(2, diameter / 3);
-      this.fragments.push({
-        diameter: d,
-        posX: (diameter - d) / 2,
-        posY: (diameter - d) / 2
-      });
+    this.unit = unit;
+    this.center = diameter / 2;
+
+    for (var i = 1; i <= 3; i++) {
+      for (var j = 1; j <= 3; j++) {
+        var d = _.random(2, unit + 2);
+        this.fragments.push({
+          diameter: d,
+          posX: i * unit,
+          posY: j * unit
+        });
+      }
     }
   },
 
   render: function () {
     this.setElement(this.template({
       fragments: this.fragments,
-      color: this.bubble.fragmentsColor
+      color: this.bubble.fragmentsColor,
+      center: this.center
     }));
     return this;
   },
 
   spread: function () {
     var elFragments = this.$el.find('img');
-    var d = this.bubble.diameter / 2;
 
-    for (var i = 0; i < 10; i += 1) {
+    for (var i = 0; i < 9; i += 1) {
       var el = elFragments[i];
-      var left = _.random(0, d);
+      el.style.top = el.dataset.posy + 'px';
+      el.style.left = el.dataset.posx + 'px';
+      el.style.opacity = '1';
+    }
+  },
+
+  gather: function () {
+    var elFragments = this.$el.find('img');
+    var unit = this.unit;
+    var base = unit * 2;
+
+    for (var i = 0; i < 9; i += 1) {
+      var el = elFragments[i];
       var fragmentDiameter = parseInt(el.dataset.diameter, 10);
+      var x = parseInt(el.dataset.posx, 10);
+      var y = parseInt(el.dataset.posy, 10);
+      var left = x;
       
-      if (left < d * 0.15 || left > d * 0.85) {
+      if (x !== base) {
+        var offset = _.random(0, unit * 1.2);
+        left = x < base ? base - offset : base + offset;
         this.edgedFragments.push(el);
-      } else if (fragmentDiameter > 10) {
+      }
+
+      if (fragmentDiameter > 9) {
         this.fatFragments.push(el);
       } else {
         this.smallFragments.push(el);
       }
 
-      el.style.top = _.random(0, d) + 'px';
+      el.style.top = y - base / 2 + 'px';
       el.style.left = left + 'px';
     }
   },
@@ -70,13 +95,14 @@ module.exports = Backbone.View.extend({
     var thins = this.smallFragments;
     for (var i = fats.length - 1; i >= 0; i--) {
       var el = fats[i];
-      el.style.opacity = 0;
-      el.style.top = (parseInt(el.style.top, 10) - 10) + 'px';
+      el.style.width = (parseInt(el.dataset.diameter, 10) / 2) + 'px';
+      el.style.height = (parseInt(el.dataset.diameter, 10) / 2) + 'px';
+      el.style.top = (parseInt(el.style.top, 10) - 15) + 'px';
     }
 
     for (var i = thins.length - 1; i >= 0; i--) {
       var el = thins[i];
-      el.style.top = (parseInt(el.style.top, 10) - 20) + 'px';
+      el.style.top = (parseInt(el.style.top, 10) - 30) + 'px';
     }
   }
 });

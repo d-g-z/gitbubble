@@ -105,7 +105,7 @@ module.exports = Backbone.View.extend({
 
       window.clearTimeout(self.fragmental);
 
-    }, 100);
+    }, 300);
   },
 
   triggerSpreading: function () {
@@ -117,18 +117,27 @@ module.exports = Backbone.View.extend({
     this.spreading = window.setTimeout(function () {
 
       self.fragmentsView.spread();
-      self.el.style.top = (parseInt(self.el.style.top, 10) - 30) + 'px';
+      self.triggerGathering();
+      window.clearTimeout(self.spreading);
 
+    }, 50);
+
+  },
+
+  triggerGathering: function () {
+    var self = this;
+
+    this.gathering = window.setTimeout(function () {
+      self.fragmentsView.gather();
+      self.el.style.top = (parseInt(self.el.style.top, 10) - 30) + 'px';
       self.triggerReducing();
       self.triggerAccelerating();
 
       self.removal = window.setTimeout(function () {
         self.$el.remove();
-      }, 600);
-      window.clearTimeout(self.spreading);
-
-    }, 50);
-
+      }, 500);
+      window.clearTimeout(self.gathering);
+    }, 100);
   },
 
   triggerReducing: function () {
@@ -137,7 +146,7 @@ module.exports = Backbone.View.extend({
     this.reducing = window.setTimeout(function () {
       self.fragmentsView.reduce();
       window.clearTimeout(self.reducing);
-    }, 200);
+    }, 300);
   },
 
   triggerAccelerating: function () {
@@ -146,7 +155,7 @@ module.exports = Backbone.View.extend({
     this.accelerating = window.setTimeout(function () {
       self.fragmentsView.loseWeight();
       window.clearTimeout(self.accelerating);
-    }, 400);
+    }, 200);
   },
 
   triggerCracking: function () {
@@ -187,17 +196,6 @@ module.exports = Backbone.View.extend({
 
     el.dataset.clicked = '1';
 
-    // if (score === 0 && time > 0) {
-    //   clickedTxt = '+' + time / 1000 + 's';
-    // } else if (score > 0) {
-    //   clickedTxt = '+' + score;
-    // } else {
-    //   clickedTxt = score;
-    // }
-
-    // $(el).find('span').html(clickedTxt);
-
-    // this.triggerExplotion();
     this.triggerMinify();
     this.triggerFragmental();
     this.updateScore(res.score);
@@ -237,9 +235,8 @@ module.exports = Backbone.View.extend({
     }, 500);
 
     this.destructionTimeout = 3000 / (1 + 0.04 * this.speed);
-    // this.destructionTimeout = 100000;
+
     this.destruction = window.setTimeout(function () {
-      // todo: disable click event while destruction
       self.crackView = new CrackView({
         bubble: self.bubble
       });
