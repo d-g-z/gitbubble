@@ -36,6 +36,12 @@ module.exports = Backbone.View.extend({
     this.speed = this.bubble.speed;
     this.bubble.diameter = this.getRandomDiameter();
     this.bubble.color = this.getRandomColor();
+    this.bubble.fragmentsColor = this.bubble.color;
+
+    if (this.bubble.text === 'gitcafe') {
+      this.bubble.color = 'gitcafe';
+    }
+
     this.on('onSettled', this.onSettled);
     this.render();
   },
@@ -49,7 +55,7 @@ module.exports = Backbone.View.extend({
 
     this.setElement(this.template(this.bubble));
     this.bindTouchEvent();
-    this.log();
+    // this.log();
     return this;
   },
 
@@ -231,7 +237,7 @@ module.exports = Backbone.View.extend({
     }, 500);
 
     this.destructionTimeout = 3000 / (1 + 0.04 * this.speed);
-
+    // this.destructionTimeout = 100000;
     this.destruction = window.setTimeout(function () {
       // todo: disable click event while destruction
       self.crackView = new CrackView({

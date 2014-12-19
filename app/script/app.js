@@ -47,7 +47,7 @@ var bubbleApp = {
     reduce: function (time) {
       if (this.left - time > 0) {
         this.left -= time;
-        console.log('timer left: ' + this.left + 'ms, passed: ' + this.passed + 'ms');
+        // console.log('timer left: ' + this.left + 'ms, passed: ' + this.passed + 'ms');
       } else {
         this.left = 0;
         this.onRunOut();

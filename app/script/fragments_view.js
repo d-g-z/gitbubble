@@ -31,7 +31,7 @@ module.exports = Backbone.View.extend({
   render: function () {
     this.setElement(this.template({
       fragments: this.fragments,
-      color: this.bubble.color
+      color: this.bubble.fragmentsColor
     }));
     return this;
   },

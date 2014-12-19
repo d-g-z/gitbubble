@@ -366,9 +366,29 @@
 
     .bubble-image {
       position: absolute;
+      display: block;
       z-index: 40;
       width: 100%;
       height: 100%;
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+      background-position: center;
+
+      &.bubble-image-green {
+        background-image: url('../image/bubble-green.png');
+      }
+      &.bubble-image-yellow {
+        background-image: url('../image/bubble-yellow.png');
+      }
+      &.bubble-image-red {
+        background-image: url('../image/bubble-red.png');
+      }
+      &.bubble-image-blue {
+        background-image: url('../image/bubble-blue.png');
+      }
+      &.bubble-image-gitcafe {
+        background-image: url('../image/bubble-gitcafe.png');
+      }
     }
 
     .bubble-text {
@@ -392,6 +412,10 @@
       }
       &.bubble-text-blue {
         color: #4C87A5;
+      }
+      &.bubble-text-gitcafe {
+        text-indent: -9999px;
+        overflow: hidden;
       }
     }
   }
