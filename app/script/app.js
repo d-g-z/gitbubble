@@ -13,6 +13,7 @@ var ShakeView = require('./shake_view');
 var ResultView = require('./result_view');
 var BubbleView = require('./bubble_view');
 var bubbleData = require('./bubble_data.json');
+var resourceData = require('./resource_data.json');
 
 var bubbleApp = {
   $container: $('#app'),
@@ -136,31 +137,70 @@ var bubbleApp = {
   loadResources: function () {
     // todo: use real resources load time, not a temporary timer
     var self = this;
+    var total = resourceData.length;
+    var resourceQueue = _.clone(resourceData);
+    var loaded = 0;
+    var handleLoadingProcess = function (loaded) {
+      if (loaded === total) {
+        AppConfig.loadedTime = new Date().getTime();
+        if (AppConfig.loadedTime - AppConfig.startTime < 3000) {
+          var loadLegacy = window.setTimeout(function () {
+            self.onResourcesLoaded();
+          }, 2000 - (AppConfig.loadedTime - AppConfig.startTime));
+        } else {
+          self.onResourcesLoaded(); 
+        }
+      } else {
+        self.welcomeView.updateLoadingProcess(loaded / total * 100);
+      }
+    };
+    var loadSingleResource = function (url) {
+      if (/\/image\//.test(url)) {
+        var img = new Image();
+        img.onload = img.onerror = function () {
+          loaded++;
+          handleLoadingProcess(loaded);
+        };
+        img.src = url;
+      } else {
+        $.ajax({
+          type: 'get',
+          url: url,
+          success: function () {
+            loaded++;
+            handleLoadingProcess(loaded);
+          },
+          error: function () {
+            loaded++;
+            handleLoadingProcess(loaded);
+          }
+        }); 
+      }
+    };
 
-    this.fakeLoadingProcess = window.setTimeout(function () {
-      self.welcomeView.updateLoadingProcess(100);
-      window.clearTimeout(self.fakeLoadingProcess);
-    }, 100);
-
-    this.loadingResources = window.setTimeout(function () {
-      self.onResourcesLoaded();
-      window.clearTimeout(this.loadingResources);
-      self.loadResources = null;
-    }, 3000);
+    while (resourceQueue.length > 0) {
+      var resourceUrl = resourceQueue.pop();
+      loadSingleResource(resourceUrl);
+    } 
   },
 
   onResourcesLoaded: function () {
     this.docHeight = $(document).height();
     this.docWidth = $(document).width();
 
+    var self = this;
     var dimension = {
       w: this.docWidth,
       h: this.docHeight
     };
 
-    this.welcomeView.trigger('loadEnded');
-    this.startView.trigger('startLoadElements', dimension);
-    this.backgroundView.trigger('setBackground');
+    this.welcomeView.updateLoadingProcess(100);
+    this.loadComplete = window.setTimeout(function () {
+      self.welcomeView.trigger('loadEnded');
+      self.startView.trigger('startLoadElements', dimension);
+      self.backgroundView.trigger('setBackground');
+      window.clearTimeout(self.loadComplete);
+    }, 2000);
   },
 
   initViews: function () {
