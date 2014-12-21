@@ -130,6 +130,7 @@ var bubbleApp = {
     this.initViews();
     this.initTimer();
     this.initScore();
+    this.initWeChatRelated();
     this.loadResources();
     console.log('Inited in ' + (AppConfig.initTime - AppConfig.startTime) / 1000 + 's.');
   },
@@ -406,6 +407,40 @@ var bubbleApp = {
     this.score.onScoreChanged = function (score) {
       self.headerView.updateScore(score);
     };
+  },
+
+  wechatReady: function () {
+    var self = this;
+    var shareTxt = '我在 GitBubble 中获得了 ' + self.score.val + ' 分！就是这么任性！';
+    WeixinJSBridge.on('menu:share:timeline', function () {
+      WeixinJSBridge.invoke('shareTimeline', {
+        img_url: location.href + 'image/wechat-timeline.png',
+        img_width: 200,
+        img_height: 200,
+        title: shareTxt,
+        link: location.href,
+        content: shareTxt
+      }, function () {
+        // shared callback
+      });
+    });
+  },
+
+  initWeChatRelated: function () {
+    var self = this;
+    var cb = function () {
+      self.wechatReady();
+    };
+    if (typeof WeixinJSBridge === 'undefined') {
+      if (document.addEventListener) {
+        document.addEventListener('WeixinJSBridgeReady', cb, false);
+      } else {
+        document.attachEvent('WeixinJSBridgeReady', cb);
+        document.attachEvent('onWeixinJSBridgeReady', cb);
+      }
+    } else {
+      cb();
+    }
   },
 
   accelerateGame: function (speed) {
