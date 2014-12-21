@@ -188,24 +188,31 @@ var bubbleApp = {
     this.docWidth = $(document).width();
 
     var self = this;
-    var dimension = {
-      w: this.docWidth,
-      h: this.docHeight
-    };
 
     $.ajax({
       type: 'get',
       url: 'http://localhost:3000/visitor/new',
       success: function (res) {
-        AppConfig.uuid = res;
-        self.loadComplete = window.setTimeout(function () {
-          self.welcomeView.trigger('loadEnded');
-          self.startView.trigger('startLoadElements', dimension);
-          self.backgroundView.trigger('setBackground');
-          window.clearTimeout(self.loadComplete);
-        }, 2000);
+        self.onVisitorInited(res);
+      },
+      error: function (res) {
+        self.onVisitorInited();
       } 
     });
+  },
+
+  onVisitorInited: function (uuid) {
+    var self = this;
+    AppConfig.uuid = uuid;
+    this.loadComplete = window.setTimeout(function () {
+      self.welcomeView.trigger('loadEnded');
+      self.startView.trigger('startLoadElements', {
+        w: self.docWidth,
+        h: self.docHeight
+      });
+      self.backgroundView.trigger('setBackground');
+      window.clearTimeout(self.loadComplete);
+    }, 2000);
   },
 
   initViews: function () {
@@ -291,6 +298,7 @@ var bubbleApp = {
 
       onEndGame: function () {
         var thisView = this;
+
         this.playing = false;
         this.speed = 0;
         
@@ -316,12 +324,19 @@ var bubbleApp = {
             gaming_time: ~~((AppConfig.gameEndTime - AppConfig.gameStartTime) / 1000),
             load_time: (AppConfig.loadedTime - AppConfig.startTime) / 1000
           },
-          success: function (res) {
-            thisView.shakings = [];
-            AppConfig.startTime = AppConfig.loadedTime;
-            self.resultView.triggerEndGame(self.score.val);
+          success: function () {
+            thisView.onGameSaved();
+          },
+          error: function () {
+            thisView.onGameSaved();
           }
         });
+      },
+
+      onGameSaved: function () {
+        this.shakings = [];
+        AppConfig.startTime = AppConfig.loadedTime;
+        self.resultView.triggerEndGame(self.score.val);
       }
     });
   
