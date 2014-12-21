@@ -198,6 +198,7 @@ module.exports = Backbone.View.extend({
 
     this.triggerMinify();
     this.triggerFragmental();
+    this.updateBubbleCount();
     this.updateScore(res.score);
     this.updateTime(res.time);
 

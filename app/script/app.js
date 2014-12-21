@@ -23,6 +23,7 @@ var bubbleApp = {
   lastBubble: {},
 
   combo: 0,
+  clickedCnt: 0,
 
   bubbles: bubbleData,
 
@@ -124,7 +125,6 @@ var bubbleApp = {
   },
 
   init: function () {
-    // todo: preload all resources.
     AppConfig.initTime = new Date().getTime();
     this.hasDeviceMotion = 'ondevicemotion' in window;
     this.initViews();
@@ -135,7 +135,6 @@ var bubbleApp = {
   },
 
   loadResources: function () {
-    // todo: use real resources load time, not a temporary timer
     var self = this;
     var total = resourceData.length;
     var resourceQueue = _.clone(resourceData);
@@ -194,13 +193,19 @@ var bubbleApp = {
       h: this.docHeight
     };
 
-    this.welcomeView.updateLoadingProcess(100);
-    this.loadComplete = window.setTimeout(function () {
-      self.welcomeView.trigger('loadEnded');
-      self.startView.trigger('startLoadElements', dimension);
-      self.backgroundView.trigger('setBackground');
-      window.clearTimeout(self.loadComplete);
-    }, 2000);
+    $.ajax({
+      type: 'get',
+      url: 'http://localhost:3000/visitor/new',
+      success: function (res) {
+        AppConfig.uuid = res;
+        self.loadComplete = window.setTimeout(function () {
+          self.welcomeView.trigger('loadEnded');
+          self.startView.trigger('startLoadElements', dimension);
+          self.backgroundView.trigger('setBackground');
+          window.clearTimeout(self.loadComplete);
+        }, 2000);
+      } 
+    });
   },
 
   initViews: function () {
@@ -285,28 +290,46 @@ var bubbleApp = {
       },
 
       onEndGame: function () {
+        var thisView = this;
         this.playing = false;
         this.speed = 0;
         
         this.setSpeed();
         this.$el.empty();
         this.$el.hide();
-
-        window.clearInterval(this.bubbling);
-
-        self.resultView.triggerEndGame(self.score.val);
-        self.timer.running = false;
-
         this.shakings.forEach(function (timer) {
           window.clearTimeout(timer);
         }); 
-        console.log('game ended after ' + ((new Date().getTime() - AppConfig.startTime) / 1000) + 's');
+
+        window.clearInterval(this.bubbling);
+        self.timer.running = false;
+        AppConfig.gameEndTime = new Date().getTime();
+
+        $.ajax({
+          type: 'post',
+          url: 'http://localhost:3000/game/save',
+          data: {
+            uuid: AppConfig.uuid,
+            score: self.score.val,
+            bubble_cnt: self.clickedCnt,
+            shake_cnt: thisView.shakings.length,
+            gaming_time: ~~((AppConfig.gameEndTime - AppConfig.gameStartTime) / 1000),
+            load_time: (AppConfig.loadedTime - AppConfig.startTime) / 1000
+          },
+          success: function (res) {
+            thisView.shakings = [];
+            AppConfig.startTime = AppConfig.loadedTime;
+            self.resultView.triggerEndGame(self.score.val);
+          }
+        });
       }
     });
   
     this.resultView = new ResultView({
       triggerRestartGame: function () {
         this.$el.hide();
+        self.combo = 0;
+        self.clickedCnt = 0;
         self.lastBubble = {};
         self.score.reset();
         self.timer.reset();
@@ -409,6 +432,9 @@ var bubbleApp = {
 
     return new BubbleView({
       bubble: bubble,
+      updateBubbleCount: function () {
+        self.clickedCnt++;
+      },
       updateScore: function (score) {
         if (self.timer.running) {
           self.score.change(parseInt(score, 10));

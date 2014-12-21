@@ -30,6 +30,7 @@ module.exports = Backbone.View.extend({
   onEndGame: function () {},
 
   onStartGame: function () {
+    AppConfig.gameStartTime = new Date().getTime();
     this.playing = true;
     this.$el.show();
     this.setStyle();
