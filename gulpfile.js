@@ -3,6 +3,7 @@ var less = require('gulp-less');
 var uglify = require('gulp-uglify');
 var minifyCss = require('gulp-minify-css');
 var deploy = require('gulp-gh-pages');
+var preprocess = require('gulp-preprocess');
 var browserify = require('browserify');
 var browserSync = require('browser-sync');
 var source = require('vinyl-source-stream');
@@ -11,6 +12,14 @@ var hbsfy = require('hbsfy');
 var del = require('del');
 
 var defaultPort = '9000';
+var defaultApiAddress = 'http://127.0.0.1:3000';
+
+gulp.task('preprocess', function () {
+  return gulp.src('app/env.js')
+    .pipe(preprocess({context: { APIADDRESS: process.env.APIADDRESS || defaultApiAddress }}))
+    .pipe(uglify())
+    .pipe(gulp.dest('app/js/'));
+});
 
 gulp.task('style', function () {
   return gulp.src('app/style/*.less')
@@ -36,7 +45,7 @@ gulp.task('watch', function () {
   ], ['script']);
 });
 
-gulp.task('server', ['style', 'script', 'watch'], function () {
+gulp.task('server', ['preprocess', 'style', 'script', 'watch'], function () {
   browserSync({
     port:  process.env.PORT || defaultPort,
     baseDir: 'app',
@@ -62,7 +71,7 @@ gulp.task('clean', function () {
   ]);
 });
 
-gulp.task('dist', ['clean', 'style', 'script'], function () {
+gulp.task('dist', ['clean', 'preprocess', 'style', 'script'], function () {
   return gulp.src([
     'app/index.html',
     'app/css/**/*',
