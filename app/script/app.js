@@ -411,18 +411,26 @@ var bubbleApp = {
 
   wechatReady: function () {
     var self = this;
-    var shareTxt = '我在 GitBubble 中获得了 ' + self.score.val + ' 分！就是这么任性！';
+    
     WeixinJSBridge.on('menu:share:timeline', function () {
-      WeixinJSBridge.invoke('shareTimeline', {
-        img_url: location.href + 'image/wechat-timeline.png',
-        img_width: 200,
-        img_height: 200,
-        title: shareTxt,
-        link: location.href,
-        content: shareTxt
-      }, function () {
-        // shared callback
-      });
+      self.wechatSharing('shareTimeline');
+    });
+    WeixinJSBridge.on('menu:share:appmessage', function () {
+      self.wechatSharing('sendAppMessage');
+    });
+  },
+
+  wechatSharing: function (action) {
+    var shareTxt = '我在 GitBubble 中获得了 ' + this.score.val + ' 分！就是这么任性！';
+    WeixinJSBridge.invoke(action, {
+      img_url: location.href + 'image/wechat-timeline.png',
+      img_width: 200,
+      img_height: 200,
+      title: shareTxt,
+      link: location.href,
+      content: shareTxt
+    }, function () {
+      // shared callback
     });
   },
 
