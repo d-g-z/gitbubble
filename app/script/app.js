@@ -430,7 +430,7 @@ var bubbleApp = {
   wechatSharing: function (action) {
     var shareTxt = '我在 GitBubble 中获得了 ' + this.score.val + ' 分！就是这么任性！';
     WeixinJSBridge.invoke(action, {
-      img_url: location.href + 'image/wechat-timeline.png',
+      img_url: location.origin + '/image/wechat-timeline.png',
       img_width: 200,
       img_height: 200,
       title: shareTxt,
@@ -475,7 +475,7 @@ var bubbleApp = {
         score: -1024,
         time: 0
       };
-    } else if (rand <= 0.05) {
+    } else if (rand <= 0.06) {
       // gitcafe bubble
       bubble =  {
         text: 'gitcafe',
