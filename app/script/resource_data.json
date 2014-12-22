@@ -1,7 +1,6 @@
 [
   '/font/ComicNeue-Bold.ttf',
   '/font/ComicNeue-Bold.woff',
-  // '/font/NotoSans-Regular.ttf',
   '/image/background.png',
   '/image/bubble-blue-small.png',
   '/image/bubble-blue.png',
@@ -13,14 +12,11 @@
   '/image/bubble-red.png',
   '/image/bubble-yellow-small.png',
   '/image/bubble-yellow.png',
-  // '/image/gitbubble-logo.png',
-  // '/image/gitcafe-logo.png',
   '/image/go-button.png',
   '/image/reindeer-shake.png',
   '/image/reindeer-start.png',
   '/image/result-board.png',
   '/image/result-button.png',
-  // '/image/santa-loading.png',
   '/image/santa-shake.png',
   '/image/santa-start.png',
   '/image/score-label.png',
@@ -28,5 +24,6 @@
   '/image/shake-text.png',
   '/image/start-button.png',
   '/image/time-label.png',
-  '/image/tips.png'
+  '/image/tips.png',
+  '/image/wechat-share.png'
 ]

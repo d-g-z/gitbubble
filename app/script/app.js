@@ -10,6 +10,7 @@ var TipsView = require('./tips_view');
 var HeaderView = require('./header_view');
 var PoolView = require('./pool_view');
 var ShakeView = require('./shake_view');
+var ShareView = require('./share_view');
 var ResultView = require('./result_view');
 var BubbleView = require('./bubble_view');
 var bubbleData = require('./bubble_data.json');
@@ -28,7 +29,7 @@ var bubbleApp = {
   bubbles: bubbleData,
 
   timer: {
-    initial: 60000,
+    initial: 6000,
     left: 0,
     passed: 0,
     interval: 250,
@@ -344,8 +345,15 @@ var bubbleApp = {
         self.score.reset();
         self.timer.reset();
         self.poolView.trigger('startGame');
+      },
+
+      triggerShowSharing: function () {
+        console.log('triggered show sharing');
+        self.shareView.startLoadElements();
       }
     });
+
+    this.shareView = new ShareView();
 
     if (this.hasDeviceMotion) {
       this.shakeView = new ShakeView({
@@ -370,6 +378,7 @@ var bubbleApp = {
     this.$container.append(this.tipsView.el);
     this.$container.append(this.poolView.el);
     this.$container.append(this.resultView.el);
+    this.$container.append(this.shareView.el);
 
     if (this.hasDeviceMotion) {
       this.$container.append(this.shakeView.el);

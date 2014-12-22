@@ -471,6 +471,7 @@
     color: #188D98;
     text-align: center;
     font-size: 15px;
+    line-height: 25px;
 
     .result-score {
       display: inline-block;
@@ -513,8 +514,31 @@
 
 
     &:first-child {
-      margin-bottom: 25px;
+      margin-bottom: 10px;
     }
+  }
+}
+
+.share {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 70;
+  opacity: 0;
+  background: rgba(255, 255, 255, 0.8);
+  transition: all ease 0.5s;
+
+  .share-guide {
+    position: relative;
+    max-width: 300px;
+    height: 300px;
+    top: 120px;
+    margin: 0 auto;
+    background-image: url('../image/wechat-share.png');
+    background-size: auto 100%;
+    background-repeat: no-repeat;
+    background-position: center center;
   }
 }
 
