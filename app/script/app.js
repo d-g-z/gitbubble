@@ -104,7 +104,7 @@ var bubbleApp = {
 
   score: {
     val: 0,
-    shakeScore: 500,
+    shakeScore: 1024,
 
     onScoreChanged: function (score) {},
 
@@ -192,7 +192,7 @@ var bubbleApp = {
 
     $.ajax({
       type: 'get',
-      url: 'http://localhost:3000/visitor/new',
+      url: AppConfig.ApiAddress + '/visitor/new',
       success: function (res) {
         self.onVisitorInited(res);
       },
@@ -261,24 +261,15 @@ var bubbleApp = {
         }
 
         var thisView = this;
-        var totalTime = self.timer.initial - 10000;
-        var amount = _.random(1, 2);
-        var timeIndex = 10000;
-        var timeoutShake = function () {
-          self.shakeView.initShaking();
-        };
 
-        for (var i = 1; i <= amount; i++) {
-
-          var randomStart = timeIndex;
-          var randomEnd = totalTime / amount * i;
-          
-          if (randomEnd > randomStart) {
-            var shakeTime = _.random(randomStart, randomEnd);
-            timeIndex = shakeTime + 10000;
-            this.shakings.push(window.setTimeout(timeoutShake, shakeTime));
+        this.shakingInterval = window.setInterval(function () {
+          if (self.timer.running && self.timer.left > 15000) {
+            thisView.shaking = window.setTimeout(function () {
+              self.shakeView.initShaking();
+            }, _.random(3000, 10000));
+            thisView.shakingCnt++; 
           }
-        }
+        }, 15000);
       },
 
       startBubbling: function () {
@@ -311,17 +302,20 @@ var bubbleApp = {
         }); 
 
         window.clearInterval(this.bubbling);
+        window.clearInterval(this.shakingInterval);
+
         self.timer.running = false;
+        self.headerView.updateTime(0);
         AppConfig.gameEndTime = new Date().getTime();
 
         $.ajax({
           type: 'post',
-          url: 'http://localhost:3000/game/save',
+          url: AppConfig.ApiAddress + '/game/save',
           data: {
             uuid: AppConfig.uuid,
             score: self.score.val,
             bubble_cnt: self.clickedCnt,
-            shake_cnt: thisView.shakings.length,
+            shake_cnt: thisView.shakingCnt,
             gaming_time: ~~((AppConfig.gameEndTime - AppConfig.gameStartTime) / 1000),
             load_time: (AppConfig.loadedTime - AppConfig.startTime) / 1000
           },
@@ -335,7 +329,7 @@ var bubbleApp = {
       },
 
       onGameSaved: function () {
-        this.shakings = [];
+        this.shakingCnt = 0;
         AppConfig.startTime = AppConfig.loadedTime;
         self.resultView.triggerEndGame(self.score.val);
       }
@@ -465,7 +459,7 @@ var bubbleApp = {
       // empty bubble
       bubble = {
         text: '',
-        score: -1000,
+        score: -256,
         time: 0
       };
     } else if (rand <= 0.04) {

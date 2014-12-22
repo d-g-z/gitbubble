@@ -6,7 +6,8 @@ var poolTmpl = require('../hbs/pool.hbs');
 
 module.exports = Backbone.View.extend({
 
-  initialInterval: 1000,
+  initialInterval: 900,
+  shakingCnt: 0,
   speed: 0,
   playing: true,
   areaWidth: 0,

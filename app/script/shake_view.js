@@ -6,6 +6,8 @@ var shakeTmpl = require('../hbs/shake.hbs');
 
 module.exports = Backbone.View.extend({
 
+  ttl: 3000,
+
   templateData: {},
 
   onceShaked: function () {},
@@ -81,7 +83,7 @@ module.exports = Backbone.View.extend({
       currentTime = new Date();
       timeDifference = currentTime.getTime() - this.lastTime.getTime();
 
-      if (timeDifference > 100) {
+      if (timeDifference > 20) {
         window.dispatchEvent(this.event);
         this.lastTime = new Date();
       }
@@ -128,6 +130,6 @@ module.exports = Backbone.View.extend({
       self.stop();
       self.$el.hide();
       self.onShakingEnded();
-    }, 5000);
+    }, this.ttl);
   }
 });
