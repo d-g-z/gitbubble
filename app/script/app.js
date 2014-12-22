@@ -186,26 +186,38 @@ var bubbleApp = {
   },
 
   onResourcesLoaded: function () {
+    var uuid;
+    var self = this;
+
     this.docHeight = $(document).height();
     this.docWidth = $(document).width();
 
-    var self = this;
+    if (!!window.localStorage) {
+      uuid = localStorage.getItem('uuid');
+    }
 
-    $.ajax({
-      type: 'get',
-      url: AppConfig.ApiAddress + 'visitor/new',
-      success: function (res) {
-        self.onVisitorInited(res);
-      },
-      error: function (res) {
-        self.onVisitorInited();
-      } 
-    });
+    if (!!uuid) {
+      this.onVisitorInited(uuid);
+    } else {
+      $.ajax({
+        type: 'get',
+        url: AppConfig.ApiAddress + 'visitor/new',
+        success: function (res) {
+          self.onVisitorInited(res);
+        },
+        error: function (res) {
+          self.onVisitorInited();
+        } 
+      }); 
+    }
   },
 
   onVisitorInited: function (uuid) {
     var self = this;
     AppConfig.uuid = uuid;
+    if (!!window.localStorage && !!uuid) {
+      localStorage.setItem('uuid', uuid);
+    }
     this.loadComplete = window.setTimeout(function () {
       self.welcomeView.trigger('loadEnded');
       self.startView.trigger('startLoadElements', {
