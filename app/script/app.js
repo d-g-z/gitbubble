@@ -192,7 +192,7 @@ var bubbleApp = {
 
     $.ajax({
       type: 'get',
-      url: AppConfig.ApiAddress + '/visitor/new',
+      url: AppConfig.ApiAddress + 'visitor/new',
       success: function (res) {
         self.onVisitorInited(res);
       },
@@ -310,7 +310,7 @@ var bubbleApp = {
 
         $.ajax({
           type: 'post',
-          url: AppConfig.ApiAddress + '/game/save',
+          url: AppConfig.ApiAddress + 'game/save',
           data: {
             uuid: AppConfig.uuid,
             score: self.score.val,

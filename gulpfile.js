@@ -12,7 +12,7 @@ var hbsfy = require('hbsfy');
 var del = require('del');
 
 var defaultPort = '9000';
-var defaultApiAddress = 'http://127.0.0.1:3000';
+var defaultApiAddress = 'http://127.0.0.1:3000/';
 
 gulp.task('preprocess', function () {
   return gulp.src('app/env.js')
