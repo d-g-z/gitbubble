@@ -319,17 +319,9 @@ var bubbleApp = {
             shake_cnt: thisView.shakingCnt,
             gaming_time: ~~((AppConfig.gameEndTime - AppConfig.gameStartTime) / 1000),
             load_time: (AppConfig.loadedTime - AppConfig.startTime) / 1000
-          },
-          success: function () {
-            thisView.onGameSaved();
-          },
-          error: function () {
-            thisView.onGameSaved();
           }
         });
-      },
 
-      onGameSaved: function () {
         this.shakingCnt = 0;
         AppConfig.startTime = AppConfig.loadedTime;
         self.resultView.triggerEndGame(self.score.val);
