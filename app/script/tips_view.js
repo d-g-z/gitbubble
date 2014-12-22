@@ -39,8 +39,8 @@ module.exports = Backbone.View.extend({
     var w = $(document).width();
     this.$el.show();
     this.$el.css({
-      height: (w / 450 * 808) + 'px',
-      backgroundSize: '100% auto'
+      height: (w / 450 * 808) * 0.9 + 'px',
+      backgroundSize: '90% auto'
     });
   },
     
