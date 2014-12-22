@@ -276,13 +276,13 @@ var bubbleApp = {
         var thisView = this;
 
         this.shakingInterval = window.setInterval(function () {
-          if (self.timer.running && self.timer.left > 15000) {
+          if (self.timer.running && self.timer.left > 25000) {
             thisView.shaking = window.setTimeout(function () {
               self.shakeView.initShaking();
-            }, _.random(3000, 10000));
+            }, _.random(3000, 18000));
             thisView.shakingCnt++; 
           }
-        }, 15000);
+        }, 25000);
       },
 
       startBubbling: function () {
@@ -475,12 +475,12 @@ var bubbleApp = {
         score: -256,
         time: 0
       };
-    } else if (rand <= 0.04) {
+    } else if (rand <= 0.05) {
       // gitcafe bubble
       bubble =  {
         text: 'gitcafe',
         score: 0,
-        time: 5000
+        time: 3000
       };
     } else {
       bubble = this.bubbles[_.random(0, this.bubbles.length - 1)];
