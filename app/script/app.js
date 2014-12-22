@@ -472,7 +472,7 @@ var bubbleApp = {
       // empty bubble
       bubble = {
         text: '',
-        score: -256,
+        score: -1024,
         time: 0
       };
     } else if (rand <= 0.05) {
