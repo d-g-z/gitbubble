@@ -29,7 +29,7 @@ var bubbleApp = {
   bubbles: bubbleData,
 
   timer: {
-    initial: 6000,
+    initial: 60000,
     left: 0,
     passed: 0,
     interval: 250,
