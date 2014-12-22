@@ -1,57 +1,57 @@
 [{
   text: 'clone',
-  score: 768,
+  score: 1024,
   time: 0
 }, {
   text: 'commit',
-  score: 768,
+  score: 1024,
   time: 0
 }, {
   text: 'rebase',
-  score: 768,
+  score: 1024,
   time: 0
 }, {
   text: 'add',
-  score: 768,
+  score: 1024,
   time: 0
 }, {
   text: 'status',
-  score: 768,
+  score: 1024,
   time: 0
 }, {
   text: 'merge',
-  score: 768,
+  score: 1024,
   time: 0
 }, {
   text: 'init',
-  score: 768,
+  score: 1024,
   time: 0
 }, {
   text: 'branch',
-  score: 768,
+  score: 1024,
   time: 0
 }, {
   text: 'fetch',
-  score: 768,
+  score: 1024,
   time: 0
 }, {
   text: 'diff',
-  score: 768,
+  score: 1024,
   time: 0
 }, {
   text: 'pull',
-  score: 768,
+  score: 1024,
   time: 0
 }, {
   text: 'push',
-  score: 768,
+  score: 1024,
   time: 0
 }, {
   text: 'reset',
-  score: 768,
+  score: 1024,
   time: 0
 }, {
   text: 'tag',
-  score: 768,
+  score: 1024,
   time: 0
 }]
