@@ -276,13 +276,13 @@ var bubbleApp = {
         var thisView = this;
 
         this.shakingInterval = window.setInterval(function () {
-          if (self.timer.running && self.timer.left > 25000) {
+          if (self.timer.running && self.timer.left > 15000) {
             thisView.shaking = window.setTimeout(function () {
               self.shakeView.initShaking();
-            }, _.random(3000, 18000));
+            }, _.random(3000, 15000));
             thisView.shakingCnt++; 
           }
-        }, 25000);
+        }, 20000);
       },
 
       startBubbling: function () {
