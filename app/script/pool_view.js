@@ -38,7 +38,7 @@ module.exports = Backbone.View.extend({
     this.startTimer();
     this.startShaking();
     this.startBubbling();
-    console.log('game started after ' + ((new Date().getTime() - AppConfig.startTime) / 1000) + 's');
+    // console.log('game started after ' + ((new Date().getTime() - AppConfig.startTime) / 1000) + 's');
   },
 
   template: poolTmpl,

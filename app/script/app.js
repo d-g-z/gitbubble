@@ -75,7 +75,7 @@ var bubbleApp = {
     end: function () {
       window.clearInterval(this.ticktock);
       this.ticktock = null;
-      console.log('ended');
+      // console.log('ended');
     },
 
     reset: function () {
@@ -87,7 +87,7 @@ var bubbleApp = {
     pause: function () {
       this.running = false;
       window.clearInterval(this.ticktock);
-      console.log('paused');
+      // console.log('paused');
     },
 
     resume: function () {
@@ -99,7 +99,7 @@ var bubbleApp = {
         self.reduce(self.interval);
       }, this.interval);
 
-      console.log('resumed');
+      // console.log('resumed');
     }
   },
 
@@ -116,7 +116,7 @@ var bubbleApp = {
         this.val = 0;
       }
       this.onScoreChanged(this.val);
-      console.log('current score: ' + this.val);
+      // console.log('current score: ' + this.val);
     },
 
     reset: function () {
@@ -133,7 +133,7 @@ var bubbleApp = {
     this.initScore();
     this.initWeChatRelated();
     this.loadResources();
-    console.log('Inited in ' + (AppConfig.initTime - AppConfig.startTime) / 1000 + 's.');
+    // console.log('Inited in ' + (AppConfig.initTime - AppConfig.startTime) / 1000 + 's.');
   },
 
   loadResources: function () {
@@ -352,7 +352,7 @@ var bubbleApp = {
       },
 
       triggerShowSharing: function () {
-        console.log('triggered show sharing');
+        // console.log('triggered show sharing');
         self.shareView.startLoadElements();
       }
     });

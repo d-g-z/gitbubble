@@ -38,7 +38,7 @@ module.exports = Backbone.View.extend({
     }
 
     this.$changedScore.css({
-      fontSize: '20px',
+      fontSize: '24px',
       opacity: '1'
     });
     this.$changedScore.html(score > 0 ? '+' + score : score); 
@@ -50,7 +50,7 @@ module.exports = Backbone.View.extend({
     }
 
     this.$changedTime.css({
-      fontSize: '20px',
+      fontSize: '24px',
       opacity: '1'
     });
     this.$changedTime.html('+' + time / 1000 + 's');
