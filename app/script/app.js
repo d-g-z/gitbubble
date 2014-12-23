@@ -435,6 +435,7 @@ var bubbleApp = {
       img_height: 200,
       title: shareTxt,
       link: location.href,
+      desc: shareTxt,
       content: shareTxt
     }, function () {
       // shared callback
