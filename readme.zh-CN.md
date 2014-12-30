@@ -4,7 +4,7 @@
 
 [GitBubble](http://gitbubble.gitcafe.io) 是一款萌系元素爆棚的可爱小游戏。它的游戏规则非常简单，戳破带有 Git 命令的泡泡即可得分。发生 Shake 事件时，用力摇晃手机即可刷分。
 
-GitBubble 是 **GitCafé** 专门为手机浏览器设计的小游戏，你可以扫描下面的二维码体验一下。
+GitBubble 是 [**GitCafé**](https://gitcafe.com) 专门为手机浏览器设计的小游戏，你可以扫描下面的二维码体验一下。
 
 ![](https://gitcafe.com/GitBubble/GitBubble/raw/master/app/image/qrcode.png)
 
