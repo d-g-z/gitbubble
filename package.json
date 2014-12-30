@@ -2,6 +2,12 @@
   "name": "GitBubble",
   "version": "0.0.1",
   "description": "A simple mobile web game for Xmas 2014",
+  "scripts": {
+    "start": "./node_modules/.bin/gulp"
+  },
+  "engines": {
+    "node": ">= 0.10.0"
+  },
   "dependencies": {
     "gulp": "~3.8.10",
     "gulp-less": "*",
@@ -30,5 +36,5 @@
     "type": "git",
     "url": "git@gitcafe.com:GitBubble/GitBubble.git"
   },
-  "license": "MIT"
+  "license": "GPL V2"
 }
