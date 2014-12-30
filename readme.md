@@ -4,11 +4,11 @@
 
 [GitBubble](http://gitbubble.gitcafe.io) is a simple game created by **GitCafé**, It was designed for mobile browsers. You can scan the following QR Code with your phone, and see how it looks like. 
 
-![](./app/image/qrcode.png)
+![](https://gitcafe.com/GitBubble/GitBubble/raw/master/app/image/qrcode.png)
 
 ## Usage
 
-Requires Node.js (0.10.x)
+Requires `Node.js (0.10.x)`
 
 ```
 git clone git@gitcafe.com:GitBubble/GitBubble.git
@@ -31,5 +31,5 @@ GitBubble is released under the [GPL V2 License](./LICENSE)
 
 ## Acknowlegments
 
-GitBubble is built with Node.js, gulp.js, Browserify, Browser-Sync, Backbone.js, Zepto.js, Handlebars.js and many other excellent frameworks or plugins. GitBubble would be nothing without them. Please support any open source libraries you like if possible.
+GitBubble is built with `Node.js`, `gulp.js`, `Browserify`, `Browser-Sync`, `Backbone.js`, `Zepto.js`, `Handlebars.js` and many other excellent frameworks or plugins. GitBubble would be nothing without them. Please support any open source libraries you like if possible.
 
