@@ -10,7 +10,7 @@ GitBubble 是 [**GitCafé**](https://gitcafe.com) 专门为手机浏览器设计
 
 ## 使用
 
-依赖于 `Node.js (0.10.x)`
+GitBubble 部署在 [**GitCafé** Pages](https://gitcafe.com/GitCafe/Help/wiki/Pages-%E7%9B%B8%E5%85%B3%E5%B8%AE%E5%8A%A9#wiki) 服务，开发环境依赖于 `Node.js (0.10.x)`
 
 ```
 git clone git@gitcafe.com:GitBubble/GitBubble.git
