@@ -186,38 +186,11 @@ var bubbleApp = {
   },
 
   onResourcesLoaded: function () {
-    var uuid;
     var self = this;
 
     this.docHeight = $(document).height();
     this.docWidth = $(document).width();
 
-    if (!!window.localStorage) {
-      uuid = localStorage.getItem('uuid');
-    }
-
-    if (!!uuid) {
-      this.onVisitorInited(uuid);
-    } else {
-      $.ajax({
-        type: 'get',
-        url: AppConfig.ApiAddress + 'visitor/new',
-        success: function (res) {
-          self.onVisitorInited(res);
-        },
-        error: function (res) {
-          self.onVisitorInited();
-        } 
-      }); 
-    }
-  },
-
-  onVisitorInited: function (uuid) {
-    var self = this;
-    AppConfig.uuid = uuid;
-    if (!!window.localStorage && !!uuid) {
-      localStorage.setItem('uuid', uuid);
-    }
     this.loadComplete = window.setTimeout(function () {
       self.welcomeView.trigger('loadEnded');
       self.startView.trigger('startLoadElements', {
@@ -320,19 +293,6 @@ var bubbleApp = {
         self.timer.running = false;
         self.headerView.updateTime(0);
         AppConfig.gameEndTime = new Date().getTime();
-
-        $.ajax({
-          type: 'post',
-          url: AppConfig.ApiAddress + 'game/save',
-          data: {
-            uuid: AppConfig.uuid,
-            score: self.score.val,
-            bubble_cnt: self.clickedCnt,
-            shake_cnt: thisView.shakingCnt,
-            gaming_time: ~~((AppConfig.gameEndTime - AppConfig.gameStartTime) / 1000),
-            load_time: (AppConfig.loadedTime - AppConfig.startTime) / 1000
-          }
-        });
 
         this.shakingCnt = 0;
         AppConfig.startTime = AppConfig.loadedTime;
