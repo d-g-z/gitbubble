@@ -4,7 +4,7 @@
 
 [GitBubble](http://gitbubble.gitcafe.io) is a simple game created by [**GitCafé**](https://gitcafe.com), It was designed for mobile browsers. You can scan the following QR Code with your phone, and see how it looks like. 
 
-![](https://gitcafe.com/GitBubble/GitBubble/raw/master/app/image/qrcode.png)
+![](https://gitcafe.com/grant/GitBubble/raw/master/app/image/qrcode.png)
 
 ## Usage
 
